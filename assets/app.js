@@ -92,11 +92,11 @@
     modeEmployerBtn: "🏢 고용주 · 인사담당자 모드",
     modeEmployeeDesc: "현재 [근로자 모드]: 해고 후 21일 마감일, 미지급 수당·보상금 및 482 비자 180일 유예·408 비자 보호를 우선 안내합니다.",
     specName: "박창민 대표변호사 (Chang Min Park)",
-    specRole1: "Principal Solicitor · Acc. Spec. (Immi)",
+    specRole1: "Legal Practitioner Director · Acc. Spec. (Immi)",
     specName2: "박기성 변호사 (Kevin Park)",
     specRole2: "Solicitor · Employment Law",
     specSlogan: "\"삶에 집중하세요, 법률은 저희가 맡겠습니다.\"",
-    specMeta: "법무법인 박앤코 (Park & Co Lawyers · Underwood QLD)<br/>공식 이메일: <strong>enquiry@parkcolawyers.com</strong><br/>FWC·연방법원 고용 분쟁 및 스폰서 기업 자문",
+    specMeta: "법무법인 박앤코 (Park & Co Lawyers · Underwood QLD)<br/>공식 상담 링크: <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;font-weight:700;\">parklawyers.com.au/links</a><br/>FWC·연방법원 고용 분쟁 및 스폰서 기업 자문",
     specCta: "고용법 전담팀 1:1 상담 브리프 전송 →",
     liveStatusLabel: "실시간 법령 · 4,012건 판례 검증됨",
     statLabelDeadline: "FWC 해고 불복 기한",
@@ -161,9 +161,9 @@
     abfCrossTitle: "실시간 ABF 스폰서 행정제재(1,842건 · 현행 121건) & 이주근로자 고용금지 사업주(s 245AYM) 교차 경보",
     abfCrossBtn: "🔎 1,842건 스폰서 제재 등록부 전체 검색 (SID 482 내비게이터) →",
     m5Title: "최신 FWC 검증 판례 & 원클릭 상담 브리프 전송",
-    m5Desc: "4,012건 고용법 KDB 핵심 판례를 확인하고, 위 진단 요약을 <strong>enquiry@parkcolawyers.com</strong>으로 즉시 전송하세요.",
-    ctaHeading: "박앤코 고용법 · 스폰서십 전담팀 상담 브리프 전송 (enquiry@parkcolawyers.com)",
-    btnSendEmail: "✉️ 진단 결과 담아 이메일 보내기 →",
+    m5Desc: "4,012건 고용법 KDB 핵심 판례를 확인하고, 위 진단 요약을 <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#7A1F2B;font-weight:700;\">공식 상담 링크(parklawyers.com.au/links)</a>로 즉시 접수하세요.",
+    ctaHeading: "박앤코 고용법 · 스폰서십 전담팀 상담 브리프 전송",
+    btnSendEmail: "🔗 진단 브리프 복사 & 공식 상담 신청 →",
     btnCopyBrief: "📋 진단 브리프 복사",
     pollerTitle: "1차 법령 · 공정근로위원회(FWC) · 박앤코 고용법 KDB 실시간 폴링 검증 매트릭스",
     pollerDesc: "연방 법령 원문(<code>legislation.gov.au</code>), 공정근로위원회 고소득 기준선·접수 수수료(<code>fwc.gov.au</code>) 및 박앤코 고용법 판례 KDB를 정기 자동 폴링하여 SHA-256 해시와 최신 법정 수치를 검증합니다.",
@@ -172,7 +172,7 @@
     thPollerFigures: "실시간 추출 핵심 수치",
     thPollerHash: "SHA-256 해시 · 용량",
     thPollerStatus: "폴링 검증 상태",
-    footerNotice: "본 내비게이터는 호주 공정근로법(Fair Work Act 2009) 및 이민법 1차 출처에 기반한 일반 법률 정보 제공 도구이며, 법무법인 박앤코의 공식 수임 계약 전 개별 법률 자문(Legal Advice)을 대체하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 법정 불변 기한이므로 즉시 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · 공식 이메일: <strong>enquiry@parkcolawyers.com</strong>)에게 문의하시기 바랍니다."
+    footerNotice: "본 내비게이터는 호주 공정근로법(Fair Work Act 2009) 및 이민법 1차 출처에 기반한 일반 법률 정보 제공 도구이며, 법무법인 박앤코의 공식 수임 계약 전 개별 법률 자문(Legal Advice)을 대체하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 법정 불변 기한이므로 즉시 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · 공식 상담 링크: <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>)에게 문의하시기 바랍니다."
   };
 
   var EN_TRANSLATIONS = {
@@ -218,12 +218,12 @@
     modeEmployeeBtn: "👷 Employee & Visa Worker Mode",
     modeEmployerBtn: "🏢 Employer & HR Mode",
     modeEmployeeDesc: "Active [Employee Mode]: Prioritising the 21-day FWC deadline, unpaid entitlements, and 482 180-day grace / 408 visa protections.",
-    specName: "Chang Min Park (Principal Solicitor)",
-    specRole1: "Principal Solicitor · Acc. Spec. (Immi)",
+    specName: "Chang Min Park (Legal Practitioner Director)",
+    specRole1: "Legal Practitioner Director · Acc. Spec. (Immi)",
     specName2: "Kevin Park (Solicitor)",
     specRole2: "Solicitor · Employment Law",
     specSlogan: "\"Focus on your life, let us take care of the law.\"",
-    specMeta: "Park & Co Lawyers (Underwood QLD)<br/>Official Email: <strong>enquiry@parkcolawyers.com</strong><br/>FWC, Federal Court & Sponsor Corporate Advisory",
+    specMeta: "Park & Co Lawyers (Underwood QLD)<br/>Official Inquiry: <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;font-weight:700;\">parklawyers.com.au/links</a><br/>FWC, Federal Court & Sponsor Corporate Advisory",
     specCta: "Send Employment Consultation Brief →",
     liveStatusLabel: "Live Law · 4,012 Cases Verified",
     statLabelDeadline: "FWC Filing Limit",
@@ -288,9 +288,9 @@
     abfCrossTitle: "Live ABF Sponsor Sanctions (1,842 Records · 121 Active Bars) & Prohibited Employers (s 245AYM) Alert",
     abfCrossBtn: "🔎 Search Full 1,842 Sponsor Sanctions Register (SID 482 Navigator) →",
     m5Title: "Verified FWC Authorities & One-Click Consultation Brief",
-    m5Desc: "Review verified FWC precedents and send your diagnostic summary directly to <strong>enquiry@parkcolawyers.com</strong>.",
-    ctaHeading: "Send Employment & Sponsorship Diagnostic Brief (enquiry@parkcolawyers.com)",
-    btnSendEmail: "✉️ Email Diagnostic Brief →",
+    m5Desc: "Review verified FWC precedents and submit your diagnostic summary via <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:#7A1F2B;font-weight:700;\">parklawyers.com.au/links</a>.",
+    ctaHeading: "Send Employment & Sponsorship Diagnostic Brief",
+    btnSendEmail: "🔗 Copy Brief & Open Official Inquiry →",
     btnCopyBrief: "📋 Copy Brief to Clipboard",
     pollerTitle: "Live Primary-Source, FWC Threshold & Park & Co Emp KDB Verification Matrix",
     pollerDesc: "Automated weekly polling of Commonwealth legislation (<code>legislation.gov.au</code>), Fair Work Commission thresholds & filing fees (<code>fwc.gov.au</code>), and the Park & Co Employment Law KDB with genuine SHA-256 content hashes.",
@@ -299,7 +299,7 @@
     thPollerFigures: "Live Extracted Figures",
     thPollerHash: "SHA-256 Content Hash · Size",
     thPollerStatus: "Verification Status",
-    footerNotice: "This navigator provides general legal information based on primary Australian legislation (Fair Work Act 2009 & Migration Act 1958) and does not constitute formal legal advice prior to a signed retainer. Because the 21-day FWC deadline (ss 394, 366, 536LU) is strictly enforced, contact Principal Solicitor Chang Min Park (Acc. Spec. Immi) & Kevin Park (Solicitor — <strong>enquiry@parkcolawyers.com</strong>) immediately."
+    footerNotice: "This navigator provides general legal information based on primary Australian legislation (Fair Work Act 2009 & Migration Act 1958) and does not constitute formal legal advice prior to a signed retainer. Because the 21-day FWC deadline (ss 394, 366, 536LU) is strictly enforced, contact Legal Practitioner Director Chang Min Park (Acc. Spec. Immi) & Kevin Park (Solicitor — <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>) immediately."
   };
 
   function initDefaultDate() {
@@ -531,7 +531,7 @@
     var brief = currentLang === "ko"
       ? [
           "[법무법인 박앤코 호주 고용법 · 스폰서십 교차 진단 패킷]",
-          "• 수신: 법무법인 박앤코 박창민 대표변호사 (Acc. Spec. Immi) & 박기성 변호사 (Kevin Park) (enquiry@parkcolawyers.com)",
+          "• 수신: 법무법인 박앤코 박창민 대표변호사 (Acc. Spec. Immi) & 박기성 변호사 (Kevin Park) (https://parklawyers.com.au/links/?lang=ko)",
           "• 의뢰인 구분: " + roleLabel,
           "• [Module 01] FWC 21일 법정 마감일: " + d1.deadlineIso + " (잔여 " + d1.diffDays + "일) / 유형: " + d1.dType,
           "• [Module 02] 법정 해고예고수당: " + d2.noticeWeeks + "주($" + d2.noticePay.toLocaleString() + ") / 정리해고수당: " + d2.redWeeks + "주($" + d2.redPay.toLocaleString() + ") / 부당해고 최대 배상한도(s 392): $" + d2.maxUdComp.toLocaleString(),
@@ -540,7 +540,7 @@
         ].join("\n")
       : [
           "[Park & Co Lawyers — Australian Employment Law & Visa Crossover Diagnostic Brief]",
-          "• To: Chang Min Park (Principal Solicitor, Acc. Spec. Immi) & Kevin Park (Solicitor) (enquiry@parkcolawyers.com)",
+          "• To: Chang Min Park (Legal Practitioner Director, Acc. Spec. Immi) & Kevin Park (Solicitor) (https://parklawyers.com.au/links/)",
           "• Client Role: " + roleLabel,
           "• [Module 01] FWC 21-Day Deadline: " + d1.deadlineIso + " (" + d1.diffDays + " days remaining) / Type: " + d1.dType,
           "• [Module 02] NES Notice: " + d2.noticeWeeks + " wks ($" + d2.noticePay.toLocaleString() + ") / NES Redundancy: " + d2.redWeeks + " wks ($" + d2.redPay.toLocaleString() + ") / s 392 26-Wk Cap: $" + d2.maxUdComp.toLocaleString(),
@@ -553,12 +553,16 @@
 
     var mailBtn = document.getElementById("btn-emp-mailto");
     if (mailBtn) {
-      var subj = encodeURIComponent(
-        currentLang === "ko"
-          ? "[박앤코 고용법·스폰서십 자문요청] FWC 21일 기한(" + d1.deadlineIso + ") 및 비자 교차 진단"
-          : "[Park & Co Employment/Visa Inquiry] FWC 21-Day Deadline (" + d1.deadlineIso + ") & Diagnostic Brief"
-      );
-      mailBtn.href = "mailto:enquiry@parkcolawyers.com?subject=" + subj + "&body=" + encodeURIComponent(brief);
+      mailBtn.href = currentLang === "ko"
+        ? "https://parklawyers.com.au/links/?lang=ko"
+        : "https://parklawyers.com.au/links/";
+      mailBtn.target = "_blank";
+      mailBtn.rel = "noopener";
+      mailBtn.onclick = function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(brief).catch(function () {});
+        }
+      };
     }
   }
 
