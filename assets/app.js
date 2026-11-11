@@ -2,97 +2,292 @@
 (function (root) {
   "use strict";
 
-  /* Canonical Australian Statutory Date & Public Holiday Utility (2026–2027) */
+  /* Canonical Australian Statutory Date & Public Holiday Utility (2026–2030+) */
   var ParkCoDates = (function () {
     var NATIONAL_HOLIDAYS = {
+      // 2026
       "2026-01-01": "New Year's Day",
       "2026-01-26": "Australia Day",
       "2026-04-03": "Good Friday",
       "2026-04-06": "Easter Monday",
       "2026-12-25": "Christmas Day",
       "2026-12-28": "Boxing Day (Additional Day)",
+      // 2027
       "2027-01-01": "New Year's Day",
       "2027-01-26": "Australia Day",
       "2027-03-26": "Good Friday",
       "2027-03-29": "Easter Monday",
-      "2027-04-26": "Anzac Day (Observed)",
+      "2027-12-25": "Christmas Day",
       "2027-12-27": "Christmas Day (Additional Day)",
-      "2027-12-28": "Boxing Day (Additional Day)"
+      "2027-12-28": "Boxing Day (Additional Day)",
+      // 2028
+      "2028-01-01": "New Year's Day",
+      "2028-01-03": "New Year's Day (Additional Day)",
+      "2028-01-26": "Australia Day",
+      "2028-04-14": "Good Friday",
+      "2028-04-17": "Easter Monday",
+      "2028-04-25": "Anzac Day",
+      "2028-12-25": "Christmas Day",
+      "2028-12-26": "Boxing Day",
+      // 2029
+      "2029-01-01": "New Year's Day",
+      "2029-01-26": "Australia Day",
+      "2029-03-30": "Good Friday",
+      "2029-04-02": "Easter Monday",
+      "2029-04-25": "Anzac Day",
+      "2029-12-25": "Christmas Day",
+      "2029-12-26": "Boxing Day",
+      // 2030
+      "2030-01-01": "New Year's Day",
+      "2030-01-26": "Australia Day",
+      "2030-01-28": "Australia Day (Additional Day)",
+      "2030-04-19": "Good Friday",
+      "2030-04-22": "Easter Monday",
+      "2030-04-25": "Anzac Day",
+      "2030-12-25": "Christmas Day",
+      "2030-12-26": "Boxing Day"
     };
 
     var STATE_HOLIDAYS = {
       QLD: {
         "2026-04-04": "Easter Saturday",
+        "2026-04-05": "Easter Sunday",
         "2026-04-25": "Anzac Day",
         "2026-05-04": "Labour Day (QLD)",
+        "2026-08-12": "Royal Queensland Show (Brisbane)",
         "2026-10-05": "King's Birthday (QLD)",
+        "2027-03-27": "Easter Saturday",
+        "2027-03-28": "Easter Sunday",
+        "2027-04-25": "Anzac Day",
+        "2027-04-26": "Anzac Day (Observed QLD)",
         "2027-05-03": "Labour Day (QLD)",
-        "2027-10-04": "King's Birthday (QLD)"
+        "2027-08-11": "Royal Queensland Show (Brisbane)",
+        "2027-10-04": "King's Birthday (QLD)",
+        "2028-04-15": "Easter Saturday",
+        "2028-04-16": "Easter Sunday",
+        "2028-05-01": "Labour Day (QLD)",
+        "2028-08-16": "Royal Queensland Show (Brisbane)",
+        "2028-10-02": "King's Birthday (QLD)",
+        "2029-03-31": "Easter Saturday",
+        "2029-04-01": "Easter Sunday",
+        "2029-05-07": "Labour Day (QLD)",
+        "2029-08-15": "Royal Queensland Show (Brisbane)",
+        "2029-10-01": "King's Birthday (QLD)",
+        "2030-04-20": "Easter Saturday",
+        "2030-04-21": "Easter Sunday",
+        "2030-05-06": "Labour Day (QLD)",
+        "2030-08-14": "Royal Queensland Show (Brisbane)",
+        "2030-10-07": "King's Birthday (QLD)"
       },
       NSW: {
+        "2026-04-04": "Easter Saturday",
+        "2026-04-05": "Easter Sunday",
         "2026-04-25": "Anzac Day",
         "2026-06-08": "King's Birthday (NSW)",
         "2026-10-05": "Labour Day (NSW)",
+        "2027-03-27": "Easter Saturday",
+        "2027-03-28": "Easter Sunday",
+        "2027-04-25": "Anzac Day",
         "2027-06-14": "King's Birthday (NSW)",
-        "2027-10-04": "Labour Day (NSW)"
+        "2027-10-04": "Labour Day (NSW)",
+        "2028-04-15": "Easter Saturday",
+        "2028-04-16": "Easter Sunday",
+        "2028-06-12": "King's Birthday (NSW)",
+        "2028-10-02": "Labour Day (NSW)",
+        "2029-03-31": "Easter Saturday",
+        "2029-04-01": "Easter Sunday",
+        "2029-06-11": "King's Birthday (NSW)",
+        "2029-10-01": "Labour Day (NSW)",
+        "2030-04-20": "Easter Saturday",
+        "2030-04-21": "Easter Sunday",
+        "2030-06-10": "King's Birthday (NSW)",
+        "2030-10-07": "Labour Day (NSW)"
       },
       VIC: {
         "2026-03-09": "Labour Day (VIC)",
+        "2026-04-04": "Easter Saturday",
+        "2026-04-05": "Easter Sunday",
         "2026-04-25": "Anzac Day",
         "2026-06-08": "King's Birthday (VIC)",
+        "2026-09-25": "Friday before AFL Grand Final (VIC)",
         "2026-11-03": "Melbourne Cup Day (VIC)",
         "2027-03-08": "Labour Day (VIC)",
+        "2027-03-27": "Easter Saturday",
+        "2027-03-28": "Easter Sunday",
+        "2027-04-25": "Anzac Day",
         "2027-06-14": "King's Birthday (VIC)",
-        "2027-11-02": "Melbourne Cup Day (VIC)"
+        "2027-09-24": "Friday before AFL Grand Final (VIC)",
+        "2027-11-02": "Melbourne Cup Day (VIC)",
+        "2028-03-13": "Labour Day (VIC)",
+        "2028-04-15": "Easter Saturday",
+        "2028-04-16": "Easter Sunday",
+        "2028-06-12": "King's Birthday (VIC)",
+        "2028-09-29": "Friday before AFL Grand Final (VIC)",
+        "2028-11-07": "Melbourne Cup Day (VIC)",
+        "2029-03-12": "Labour Day (VIC)",
+        "2029-03-31": "Easter Saturday",
+        "2029-04-01": "Easter Sunday",
+        "2029-06-11": "King's Birthday (VIC)",
+        "2029-09-28": "Friday before AFL Grand Final (VIC)",
+        "2029-11-06": "Melbourne Cup Day (VIC)",
+        "2030-03-11": "Labour Day (VIC)",
+        "2030-04-20": "Easter Saturday",
+        "2030-04-21": "Easter Sunday",
+        "2030-06-10": "King's Birthday (VIC)",
+        "2030-09-27": "Friday before AFL Grand Final (VIC)",
+        "2030-11-05": "Melbourne Cup Day (VIC)"
       },
       WA: {
         "2026-03-02": "Labour Day (WA)",
+        "2026-04-05": "Easter Sunday",
+        "2026-04-25": "Anzac Day",
         "2026-04-27": "Anzac Day (Observed WA)",
         "2026-06-01": "Western Australia Day",
         "2026-09-28": "King's Birthday (WA)",
         "2027-03-01": "Labour Day (WA)",
+        "2027-03-28": "Easter Sunday",
+        "2027-04-25": "Anzac Day",
+        "2027-04-26": "Anzac Day (Observed WA)",
         "2027-06-07": "Western Australia Day",
-        "2027-09-27": "King's Birthday (WA)"
+        "2027-09-27": "King's Birthday (WA)",
+        "2028-03-06": "Labour Day (WA)",
+        "2028-04-16": "Easter Sunday",
+        "2028-06-05": "Western Australia Day",
+        "2028-09-25": "King's Birthday (WA)",
+        "2029-03-05": "Labour Day (WA)",
+        "2029-04-01": "Easter Sunday",
+        "2029-06-04": "Western Australia Day",
+        "2029-09-24": "King's Birthday (WA)",
+        "2030-03-04": "Labour Day (WA)",
+        "2030-04-21": "Easter Sunday",
+        "2030-06-03": "Western Australia Day",
+        "2030-09-30": "King's Birthday (WA)"
       },
       SA: {
         "2026-03-09": "Adelaide Cup Day (SA)",
+        "2026-04-04": "Easter Saturday",
         "2026-04-25": "Anzac Day",
         "2026-06-08": "King's Birthday (SA)",
         "2026-10-05": "Labour Day (SA)",
         "2027-03-08": "Adelaide Cup Day (SA)",
+        "2027-03-27": "Easter Saturday",
+        "2027-04-26": "Anzac Day (Observed SA)",
         "2027-06-14": "King's Birthday (SA)",
-        "2027-10-04": "Labour Day (SA)"
+        "2027-10-04": "Labour Day (SA)",
+        "2028-03-13": "Adelaide Cup Day (SA)",
+        "2028-04-15": "Easter Saturday",
+        "2028-06-12": "King's Birthday (SA)",
+        "2028-10-02": "Labour Day (SA)",
+        "2029-03-12": "Adelaide Cup Day (SA)",
+        "2029-03-31": "Easter Saturday",
+        "2029-06-11": "King's Birthday (SA)",
+        "2029-10-01": "Labour Day (SA)",
+        "2030-03-11": "Adelaide Cup Day (SA)",
+        "2030-04-20": "Easter Saturday",
+        "2030-06-10": "King's Birthday (SA)",
+        "2030-10-07": "Labour Day (SA)"
       },
       TAS: {
         "2026-03-09": "Eight Hours Day (TAS)",
+        "2026-04-07": "Easter Tuesday (TAS Public Service)",
         "2026-04-25": "Anzac Day",
         "2026-06-08": "King's Birthday (TAS)",
         "2027-03-08": "Eight Hours Day (TAS)",
-        "2027-06-14": "King's Birthday (TAS)"
+        "2027-03-30": "Easter Tuesday (TAS Public Service)",
+        "2027-04-25": "Anzac Day",
+        "2027-06-14": "King's Birthday (TAS)",
+        "2028-03-13": "Eight Hours Day (TAS)",
+        "2028-04-18": "Easter Tuesday (TAS Public Service)",
+        "2028-06-12": "King's Birthday (TAS)",
+        "2029-03-12": "Eight Hours Day (TAS)",
+        "2029-04-03": "Easter Tuesday (TAS Public Service)",
+        "2029-06-11": "King's Birthday (TAS)",
+        "2030-03-11": "Eight Hours Day (TAS)",
+        "2030-04-23": "Easter Tuesday (TAS Public Service)",
+        "2030-06-10": "King's Birthday (TAS)"
       },
       ACT: {
         "2026-03-09": "Canberra Day (ACT)",
+        "2026-04-04": "Easter Saturday",
+        "2026-04-05": "Easter Sunday",
+        "2026-04-25": "Anzac Day",
         "2026-04-27": "Anzac Day (Observed ACT)",
         "2026-06-01": "Reconciliation Day (ACT)",
         "2026-06-08": "King's Birthday (ACT)",
         "2026-10-05": "Labour Day (ACT)",
         "2027-03-08": "Canberra Day (ACT)",
+        "2027-03-27": "Easter Saturday",
+        "2027-03-28": "Easter Sunday",
+        "2027-04-25": "Anzac Day",
+        "2027-04-26": "Anzac Day (Observed ACT)",
         "2027-05-31": "Reconciliation Day (ACT)",
         "2027-06-14": "King's Birthday (ACT)",
-        "2027-10-04": "Labour Day (ACT)"
+        "2027-10-04": "Labour Day (ACT)",
+        "2028-03-13": "Canberra Day (ACT)",
+        "2028-04-15": "Easter Saturday",
+        "2028-04-16": "Easter Sunday",
+        "2028-05-29": "Reconciliation Day (ACT)",
+        "2028-06-12": "King's Birthday (ACT)",
+        "2028-10-02": "Labour Day (ACT)",
+        "2029-03-12": "Canberra Day (ACT)",
+        "2029-03-31": "Easter Saturday",
+        "2029-04-01": "Easter Sunday",
+        "2029-05-28": "Reconciliation Day (ACT)",
+        "2029-06-11": "King's Birthday (ACT)",
+        "2029-10-01": "Labour Day (ACT)",
+        "2030-03-11": "Canberra Day (ACT)",
+        "2030-04-20": "Easter Saturday",
+        "2030-04-21": "Easter Sunday",
+        "2030-05-27": "Reconciliation Day (ACT)",
+        "2030-06-10": "King's Birthday (ACT)",
+        "2030-10-07": "Labour Day (ACT)"
       },
       NT: {
+        "2026-04-04": "Easter Saturday",
+        "2026-04-25": "Anzac Day",
         "2026-05-04": "May Day (NT)",
         "2026-06-08": "King's Birthday (NT)",
         "2026-08-03": "Picnic Day (NT)",
+        "2027-03-27": "Easter Saturday",
+        "2027-04-26": "Anzac Day (Observed NT)",
         "2027-05-03": "May Day (NT)",
         "2027-06-14": "King's Birthday (NT)",
-        "2027-08-02": "Picnic Day (NT)"
+        "2027-08-02": "Picnic Day (NT)",
+        "2028-04-15": "Easter Saturday",
+        "2028-05-01": "May Day (NT)",
+        "2028-06-12": "King's Birthday (NT)",
+        "2028-08-07": "Picnic Day (NT)",
+        "2029-03-31": "Easter Saturday",
+        "2029-05-07": "May Day (NT)",
+        "2029-06-11": "King's Birthday (NT)",
+        "2029-08-06": "Picnic Day (NT)",
+        "2030-04-20": "Easter Saturday",
+        "2030-05-06": "May Day (NT)",
+        "2030-06-10": "King's Birthday (NT)",
+        "2030-08-05": "Picnic Day (NT)"
       }
     };
 
     function pad2(n) {
       return n < 10 ? "0" + n : String(n);
+    }
+
+    function easterSundayIso(year) {
+      var a = year % 19;
+      var b = Math.floor(year / 100);
+      var c = year % 100;
+      var d = Math.floor(b / 4);
+      var e = b % 4;
+      var f = Math.floor((b + 8) / 25);
+      var g = Math.floor((b - f + 1) / 3);
+      var h = (19 * a + b - d - g + 15) % 30;
+      var i = Math.floor(c / 4);
+      var k = c % 4;
+      var l = (32 + 2 * e + 2 * i - h - k) % 7;
+      var m = Math.floor((a + 11 * h + 22 * l) / 451);
+      var month = Math.floor((h + l - 7 * m + 114) / 31);
+      var day = ((h + l - 7 * m + 114) % 31) + 1;
+      return year + "-" + pad2(month) + "-" + pad2(day);
     }
 
     function parseIsoLocal(isoStr) {
@@ -112,6 +307,10 @@
       return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
     }
 
+    function addCalendarDays(d, days) {
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate() + days, 12, 0, 0, 0);
+    }
+
     function todayBrisbaneIso() {
       try {
         var parts = new Intl.DateTimeFormat("en-CA", {
@@ -127,11 +326,30 @@
       return formatIsoLocal(new Date());
     }
 
+    function getDynamicFallbackHoliday(isoStr) {
+      var d = parseIsoLocal(isoStr);
+      if (!d) return null;
+      var y = d.getFullYear();
+      if (y <= 2030) return null;
+      var md = isoStr.slice(5);
+      if (md === "01-01") return "New Year's Day";
+      if (md === "01-26") return "Australia Day";
+      if (md === "04-25") return "Anzac Day";
+      if (md === "12-25") return "Christmas Day";
+      if (md === "12-26") return "Boxing Day";
+      var es = parseIsoLocal(easterSundayIso(y));
+      if (es) {
+        if (formatIsoLocal(addCalendarDays(es, -2)) === isoStr) return "Good Friday";
+        if (formatIsoLocal(addCalendarDays(es, 1)) === isoStr) return "Easter Monday";
+      }
+      return null;
+    }
+
     function getHolidayName(isoStr, stateCode) {
       var st = (stateCode || "QLD").toUpperCase();
       if (NATIONAL_HOLIDAYS[isoStr]) return NATIONAL_HOLIDAYS[isoStr];
       if (STATE_HOLIDAYS[st] && STATE_HOLIDAYS[st][isoStr]) return STATE_HOLIDAYS[st][isoStr];
-      return null;
+      return getDynamicFallbackHoliday(isoStr);
     }
 
     function isBusinessDay(d, stateCode) {
@@ -139,10 +357,6 @@
       if (dow === 0 || dow === 6) return false;
       var iso = formatIsoLocal(d);
       return !getHolidayName(iso, stateCode);
-    }
-
-    function addCalendarDays(d, days) {
-      return new Date(d.getFullYear(), d.getMonth(), d.getDate() + days, 12, 0, 0, 0);
     }
 
     function calcWorkingDaysDeadline(startIso, workingDays, stateCode) {
@@ -184,6 +398,7 @@
       var raw = addCalendarDays(start, calendarDays);
       var finalDate = new Date(raw.getTime());
       var rolledReason = null;
+      var weekendWarning = null;
       if (rolloverToNextBusinessDay) {
         var reasons = [];
         while (!isBusinessDay(finalDate, st)) {
@@ -196,14 +411,21 @@
           finalDate = addCalendarDays(finalDate, 1);
         }
         if (reasons.length > 0) rolledReason = reasons.join(" / ");
+      } else if (!isBusinessDay(finalDate, st)) {
+        var rawIso = formatIsoLocal(finalDate);
+        weekendWarning = getHolidayName(rawIso, st) || (finalDate.getDay() === 6 ? "Saturday" : "Sunday");
       }
       var safe = addCalendarDays(finalDate, -1);
+      while (safe > start && !isBusinessDay(safe, st)) {
+        safe = addCalendarDays(safe, -1);
+      }
       return {
         rawDate: formatIsoLocal(raw),
         statutoryDate: formatIsoLocal(finalDate),
         safeDate: formatIsoLocal(safe),
         state: st,
-        rolledReason: rolledReason
+        rolledReason: rolledReason,
+        weekendWarning: weekendWarning
       };
     }
 
@@ -215,8 +437,13 @@
     }
 
     return {
+      NATIONAL_HOLIDAYS: NATIONAL_HOLIDAYS,
+      STATE_HOLIDAYS: STATE_HOLIDAYS,
+      easterSundayIso: easterSundayIso,
+      getDynamicFallbackHoliday: getDynamicFallbackHoliday,
       parseIsoLocal: parseIsoLocal,
       formatIsoLocal: formatIsoLocal,
+      addCalendarDays: addCalendarDays,
       todayBrisbaneIso: todayBrisbaneIso,
       getHolidayName: getHolidayName,
       isBusinessDay: isBusinessDay,
@@ -231,6 +458,22 @@
   var currentLang = "ko";
   var currentMode = "employee";
   var hasInteracted = false;
+
+  var dynamicThresholds = {
+    hitAud: 190100,
+    hitFmt: "$190,100",
+    capAud: 95050,
+    capFmt: "$95,050",
+    feeAud: 92.70,
+    feeFmt: "$92.70"
+  };
+
+  var TOOL_DEEPLINK_MAP = {
+    deadline: "deadline-router",
+    redundancy: "redundancy-calc",
+    sham: "compliance-audit",
+    visa8607: "visa-workplace-crossover"
+  };
 
   var VISA_LABELS = {
     ko: {
@@ -299,15 +542,26 @@
       citation: "[2026] FWC 3921",
       parties: "Application by Zelai Zhao (Uber Delivery Platform)",
       date: "2026-10-13",
-      tag_ko: "디지털 플랫폼 부당 계정 비활성화 (s 536LU) · 21일 기한",
-      tag_en: "Digital Platform Unfair Deactivation (s 536LU) & 21-Day Limit",
-      summary_ko: "Closing Loopholes 개정법으로 도입된 배달·플랫폼 종사자 부당 계정정지 구제 신청(s 536LU)도 정지일로부터 21일 안에 접수해야 하며 기한 도과 시 각하된다는 점을 확인했습니다.",
-      summary_en: "Applied the new Closing Loopholes unfair deactivation jurisdiction (s 536LU) for digital platform workers, dismissing an application filed outside the strict 21-day limit (s 536LZ).",
+      tag_ko: "디지털 플랫폼 부당 계정 비활성화 (s 536LU · s 536LD) · 21일 기한",
+      tag_en: "Digital Platform Unfair Deactivation (s 536LU · s 536LD) & 21-Day Limit",
+      summary_ko: "Closing Loopholes 개정법으로 도입된 배달·플랫폼 종사자 부당 계정정지 구제 신청(s 536LU · 최소 6개월 정기 활동 요건 s 536LD)도 정지일로부터 21일 안에 접수해야 하며 기한 도과 시 각하된다는 점을 확인했습니다.",
+      summary_en: "Applied the Closing Loopholes unfair deactivation jurisdiction (s 536LU / s 536LD 6-month regular work rule) for digital platform workers, dismissing an application filed outside the strict 21-day limit (s 536LZ).",
       url: "https://www.legislation.gov.au/C2009A00028/latest/text"
+    },
+    {
+      citation: "[2016] FWCFB 5500",
+      parties: "Mohammed Ayub v NSW Trains",
+      date: "2016-09-30",
+      tag_ko: "해고 효력 발생일(Day 0) 및 서면·이메일 도달일 원칙 (s 386 · s 394(2))",
+      tag_en: "Effective Date of Dismissal (Day 0) & Communication Rule (s 386 · s 394(2))",
+      summary_ko: "해고는 근로자에게 통지되어 합리적으로 그 사실을 알 수 있었던 시점보다 소급해 효력이 발생할 수 없다는 전원합의체 원칙입니다. 이메일·우편 해고는 통지서 기재일과 실제 도달·열람 가능일 중 늦은 날이 Day 0가 됩니다.",
+      summary_en: "Full Bench authority establishing that a dismissal cannot take effect before it is communicated and the employee has a reasonable opportunity to read it; Day 0 is the later of the stated termination date and actual receipt.",
+      url: "https://www.fwc.gov.au/job-loss-or-dismissal/unfair-dismissal"
     }
   ];
 
   var KO_TRANSLATIONS = {
+    docTitle: "호주 고용법 (부당해고 21일 기한 · 정리해고 · 임금체불 · 482 스폰서 교차) 양방향 내비게이터 | 법무법인 박앤코 (Park & Co Lawyers)",
     brandTag: "호주 고용법 · 스폰서 비자 내비게이터",
     navM1: "21일 기한",
     navM2: "정리해고·보상금",
@@ -330,12 +584,31 @@
     m1Title: "1. 해고 후 21일 마감일 & FWC 청구 경로 진단",
     m1Desc: "해고 효력 발생일과 근무지 주(State)를 선택하면 보수적 안전 접수 권고일과 주별 공휴일 연장(Acts Interpretation Act 1901 s 36(2))을 반영한 법정 최종 마감일을 나란히 계산합니다.",
     m1FormHeading: "해고 · 사직 압박 · 계정 정지 사실관계 입력",
-    lblDismissalDate: "해고 효력 발생일 (최종 근무일)",
+    lblDismissalDate: "해고 효력 발생일 (최종 근무일 · Day 0)",
     lblEmpState: "근무지 주/준주 (공휴일 연장 기준)",
+    optStateQLD: "QLD (퀸즐랜드)",
+    optStateNSW: "NSW (뉴사우스웨일스)",
+    optStateVIC: "VIC (빅토리아)",
+    optStateWA: "WA (서호주)",
+    optStateSA: "SA (남호주)",
+    optStateTAS: "TAS (태즈메이니아)",
+    optStateACT: "ACT (캔버라)",
+    optStateNT: "NT (노던준주)",
+    ayubHelperSummary: "해고 효력 발생일(Day 0) 판정 도우미 · 구두·서면 도달일·통지기간 구분 (Ayub [2016] FWCFB 5500)",
+    lblAyubMode: "해고 통지 및 종료 방식",
+    optAyubOral: "(a) 구두 해고 통보일 (대면·유선 즉시 해고 고지일)",
+    optAyubWritten: "(b) 서면·이메일·문자 통지 실제 도달·확인일 (Ayub 원칙)",
+    optAyubNotice: "(c) 통지기간 만료일(마지막 근무일) vs 즉시 해고수당(Payment in Lieu) 지급일",
+    lblAyubNoticeSub: "통지기간(Notice) 처리 방식",
+    optAyubWorkingOut: "통지기간을 실제로 근무 후 퇴사 (마지막 근무일이 Day 0)",
+    optAyubPil: "예고수당(Payment in Lieu) 지급 조건 즉시 해고 (즉시 종료 통지 도달일이 Day 0)",
+    lblAyubStatedDate: "문서 기재 해고일 / 통보 발송일",
+    lblAyubActualDate: "실제 도달·열람일 또는 마지막 근무일",
+    btnAyubApply: "산출된 Day 0 효력일을 해고일에 자동 반영",
     lblBizSize: "사업장 규모 (해고 시점 총 근로자 수 · 계열사 합산, s 23)",
     optBizStandard: "일반 사업장 (15인 이상 · 최소 근속 6개월 적용)",
     optBizSmall: "소규모 사업장 (Small Business 15인 미만 · 최소 근속 12개월 적용)",
-    lblServiceMonths: "총 근속 개월 수 (Months of Continuous Service)",
+    lblServiceMonths: "총 근속 개월 수 / 플랫폼 정기 활동 개월 수 (s 383 · s 536LD)",
     lblSalaryBand: "연간 기본급 수준 (High Income Threshold $190,100 & Award 적용 여부)",
     optUnderHit: "고소득 기준선($190,100 · FY2026–27) 미만 또는 Modern Award / 기업협약(EA) 적용",
     optOverHit: "고소득 기준선($190,100) 이상 & Award/EA 미적용 임원·고액연봉자 (s 382(b) 제한)",
@@ -344,11 +617,14 @@
     optTypeRedundancy: "구조조정·정리해고 통보 (재배치 미검토·대체 인력 채용 의심 · s 389)",
     optTypeAdverse: "임금·휴가·안전·괴롭힘 문제제기(Workplace Right 행사) 후 보복 해고 (s 340/s 365)",
     optTypeForced: "강제사직 / PIP 압박으로 사직서 제출 또는 제출 직전 (s 386(1)(b))",
-    optTypePlatform: "우버·도어대시 등 디지털 플랫폼 계정 일방 비활성화 (s 536LU)",
+    optTypePlatform: "우버·도어대시 등 디지털 플랫폼 계정 일방 비활성화 (s 536LU · s 536LD 6개월 요건)",
     m1ResultHeading: "보수적 안전 접수 권고일 & 법정 최종 마감일 병기 판정",
     m2Title: "2. 정리해고 적법성(s 389) · 해고수당 & 26주 보상금 계산기",
     m2Desc: "직무 소멸·사전 협의·사내 재배치(s 389) 요건 중 하나라도 누락된 부적법 정리해고는 최대 <strong>26주분 급여 배상(s 392 · 상한 $95,050)</strong> 대상이 됩니다.",
     m2FormHeading: "근속연수 · 급여 · 정리해고 3대 법정 요건 입력",
+    lblRedBizSize: "정리해고 계산 기준 사업장 규모 (s 121 소규모 사업장 15인 미만 면제 여부 · 독립 설정)",
+    optRedBizStandard: "일반 사업장 (15인 이상 · s 119 NES 법정 정리해고수당 적용)",
+    optRedBizSmall: "소규모 사업장 (15인 미만 · s 121 NES 정리해고수당 면제 · 해고예고수당 별도)",
     lblRedYears: "연속 근속연수 (Years of Continuous Service)",
     optYr0: "1년 미만 (Under 1 year)",
     optYr1: "1년 이상 ~ 2년 미만 (1 to <2 years)",
@@ -407,6 +683,8 @@
     abfCrossTitle: "실시간 ABF 스폰서 행정제재(1,850건 · 현행 125건) & 이주근로자 고용금지 사업주(s 245AYM) 교차 경보",
     abfCrossBtn: "스폰서 제재 등록부 전체 검색 →",
     ctaHeading: "법무법인 박앤코 고용법 · 스폰서십 전담팀 상담 브리프 전송",
+    ctaOfficialEmailLbl: "공식 이메일:",
+    ctaOfficialHubLbl: "공식 문의 허브:",
     btnSendEmail: "진단 브리프 복사 & 공식 상담 신청 →",
     btnCopyBrief: "진단 브리프 복사",
     ctaBtnEmergency: "비자응급실 무료 통지서 진단 →",
@@ -460,6 +738,7 @@
   };
 
   var EN_TRANSLATIONS = {
+    docTitle: "Australian Employment Law Navigator (21-Day FWC Limit, Redundancy, Compliance & Visa Crossover) | Park & Co Lawyers",
     brandTag: "Australian Employment Law & Sponsor Visa Navigator",
     navM1: "21-Day Limit",
     navM2: "Redundancy & Cap",
@@ -482,12 +761,31 @@
     m1Title: "1. 21-Day FWC Deadline & Claim Pathway Router",
     m1Desc: "Select your dismissal effective date and workplace State/Territory to compare the recommended safe filing date alongside the statutory final deadline under Acts Interpretation Act 1901 s 36(2).",
     m1FormHeading: "Enter Dismissal, Resignation Pressure or Deactivation Facts",
-    lblDismissalDate: "Dismissal Effective Date (Final Day)",
+    lblDismissalDate: "Dismissal Effective Date (Final Day · Day 0)",
     lblEmpState: "Workplace State/Territory (Public Holiday Basis)",
+    optStateQLD: "QLD (Queensland)",
+    optStateNSW: "NSW (New South Wales)",
+    optStateVIC: "VIC (Victoria)",
+    optStateWA: "WA (Western Australia)",
+    optStateSA: "SA (South Australia)",
+    optStateTAS: "TAS (Tasmania)",
+    optStateACT: "ACT (Australian Capital Territory)",
+    optStateNT: "NT (Northern Territory)",
+    ayubHelperSummary: "Dismissal Effective Date (Day 0) Helper · Oral, Written Receipt & Notice Rules (Ayub [2016] FWCFB 5500)",
+    lblAyubMode: "How Dismissal Was Communicated",
+    optAyubOral: "(a) Oral Dismissal (Immediate termination communicated in person/phone)",
+    optAyubWritten: "(b) Written / Email / SMS Notice (Actual receipt & opportunity to read · Ayub rule)",
+    optAyubNotice: "(c) Expiry of Notice Period (Last Day Worked) vs Payment in Lieu Immediate Termination",
+    lblAyubNoticeSub: "Notice Period Arrangement",
+    optAyubWorkingOut: "Worked out notice period (Final day of employment is Day 0)",
+    optAyubPil: "Immediate termination with payment in lieu (Communication/receipt date is Day 0)",
+    lblAyubStatedDate: "Employer Notice / Stated Termination Date",
+    lblAyubActualDate: "Actual Receipt / Opportunity to Read Date (or Final Day Worked)",
+    btnAyubApply: "Apply Computed Day 0 to Dismissal Date",
     lblBizSize: "Employer Size (Total Headcount incl. Associated Entities, s 23)",
     optBizStandard: "Non-Small Business (15+ employees · 6-month minimum employment period)",
     optBizSmall: "Small Business Employer (<15 employees · 12-month minimum employment period)",
-    lblServiceMonths: "Months of Continuous Service",
+    lblServiceMonths: "Months of Continuous Service / Regular Platform Engagement (s 383 · s 536LD)",
     lblSalaryBand: "Annual Base Salary vs High Income Threshold ($190,100 · FY2026–27)",
     optUnderHit: "Below High Income Threshold ($190,100) OR Covered by a Modern Award / Enterprise Agreement",
     optOverHit: "Above High Income Threshold ($190,100) AND Award/EA-Free Executive (s 382(b) bar applies)",
@@ -496,11 +794,14 @@
     optTypeRedundancy: "Purported Redundancy (No redeployment offered / replacement hired · s 389)",
     optTypeAdverse: "Dismissed After Exercising a Workplace Right / Inquiry / Complaint (s 340 / s 365)",
     optTypeForced: "Forced Resignation / Constructive Dismissal / PIP Pressure (s 386(1)(b))",
-    optTypePlatform: "Digital Platform (Uber/DoorDash) Account Deactivation (s 536LU)",
+    optTypePlatform: "Digital Platform (Uber/DoorDash) Account Deactivation (s 536LU · s 536LD 6m rule)",
     m1ResultHeading: "Side-by-Side Safe Filing Date & Statutory Final Deadline",
     m2Title: "2. Redundancy (s 389), NES Pay & 26-Week Compensation Calculator",
     m2Desc: "If a redundancy lacks genuine job abolition, Award consultation, or redeployment efforts (s 389), up to <strong>26 weeks' compensation (s 392 · $95,050 cap)</strong> applies.",
     m2FormHeading: "Service Length, Weekly Pay & s 389 Compliance Check",
+    lblRedBizSize: "Employer Size for Redundancy Pay (s 121 Small Business <15 Employees Exemption · Independent Toggle)",
+    optRedBizStandard: "Non-Small Business (15+ employees · s 119 NES Redundancy Pay applies)",
+    optRedBizSmall: "Small Business Employer (<15 employees · s 121 NES Redundancy Pay exempt · Notice pay still applies)",
     lblRedYears: "Years of Continuous Service",
     optYr0: "Under 1 year of continuous service",
     optYr1: "1 to <2 years of continuous service",
@@ -559,6 +860,8 @@
     abfCrossTitle: "Live ABF Sponsor Sanctions (1,850 Records · 125 Active Bars) & Prohibited Employers (s 245AYM) Alert",
     abfCrossBtn: "Search Full Sponsor Sanctions Register →",
     ctaHeading: "Send Employment & Sponsorship Diagnostic Brief",
+    ctaOfficialEmailLbl: "Official Email:",
+    ctaOfficialHubLbl: "Official Inquiry Hub:",
     btnSendEmail: "Copy Brief & Open Official Inquiry →",
     btnCopyBrief: "Copy Brief to Clipboard",
     ctaBtnEmergency: "Free Visa Emergency Triage →",
@@ -612,10 +915,189 @@
   };
 
   function initDefaultDate() {
+    var today = ParkCoDates.todayBrisbaneIso();
     var dInput = document.getElementById("emp-dismissal-date");
     if (dInput && !dInput.value) {
-      dInput.value = ParkCoDates.todayBrisbaneIso();
+      dInput.value = today;
     }
+    var ayubStated = document.getElementById("ayub-stated-date");
+    var ayubActual = document.getElementById("ayub-actual-date");
+    if (ayubStated && !ayubStated.value) ayubStated.value = today;
+    if (ayubActual && !ayubActual.value) ayubActual.value = today;
+  }
+
+  function computeAyubEffectiveDate(mode, statedIso, actualIso, noticeSub) {
+    var m = (mode || "written").toLowerCase();
+    var sub = (noticeSub || "working_out").toLowerCase();
+    var pStated = ParkCoDates.parseIsoLocal(statedIso);
+    var pActual = ParkCoDates.parseIsoLocal(actualIso);
+    var sIso = pStated ? ParkCoDates.formatIsoLocal(pStated) : "";
+    var aIso = pActual ? ParkCoDates.formatIsoLocal(pActual) : "";
+    var effectiveIso = "";
+    var explainKo = "";
+    var explainEn = "";
+
+    if (m === "oral") {
+      effectiveIso = sIso || aIso;
+      explainKo = "구두 즉시 해고: 대면·유선으로 해고 의사가 명확히 전달된 날(" + (effectiveIso || "-") + ")이 법정 Day 0 효력 발생일입니다 (s 386).";
+      explainEn = "Oral Dismissal: Day 0 is the date immediate termination was clearly communicated (" + (effectiveIso || "-") + ") under s 386.";
+    } else if (m === "notice") {
+      if (sub === "payment_in_lieu") {
+        if (sIso && aIso) {
+          effectiveIso = aIso > sIso ? aIso : sIso;
+        } else {
+          effectiveIso = aIso || sIso;
+        }
+        explainKo = "예고수당(Payment in Lieu) 지급 즉시 해고: 예고기간 만료일이 아니라 즉시 종료 통지가 도달·확인된 날(" + (effectiveIso || "-") + ")부터 바로 21일 기한이 진행됩니다 (Ayub [2016] FWCFB 5500).";
+        explainEn = "Payment in Lieu Immediate Termination: Day 0 is when immediate termination was communicated/received (" + (effectiveIso || "-") + "), NOT the notional end of the notice period (Ayub [2016] FWCFB 5500).";
+      } else {
+        effectiveIso = aIso || sIso;
+        explainKo = "통지기간(Notice Period) 실제 근무: 사전 해고예고를 받았더라도 실제 고용관계가 종료되는 마지막 근무일(" + (effectiveIso || "-") + ")이 법정 Day 0 효력 발생일입니다.";
+        explainEn = "Working Out Notice: Day 0 is the expiry of the notice period / final day of employment (" + (effectiveIso || "-") + ").";
+      }
+    } else {
+      /* Written / Email / SMS / Post — Ayub v NSW Trains [2016] FWCFB 5500 */
+      if (sIso && aIso) {
+        effectiveIso = aIso > sIso ? aIso : sIso;
+      } else {
+        effectiveIso = aIso || sIso;
+      }
+      var backdated = sIso && aIso && aIso > sIso;
+      explainKo = backdated
+        ? "Ayub 원칙 적용 ([2016] FWCFB 5500): 문서상 기재일(" + sIso + ")보다 근로자가 이메일·우편을 실제 수령·열람할 수 있었던 날(" + aIso + ")이 늦으므로 소급 효력이 부정되고 " + effectiveIso + "이 법정 Day 0가 됩니다."
+        : "서면·이메일·문자 통지 (Ayub [2016] FWCFB 5500): 통지서 기재 종료일과 실제 도달·열람 가능일 중 늦은 날(" + (effectiveIso || "-") + ")이 법정 Day 0 효력 발생일입니다.";
+      explainEn = backdated
+        ? "Ayub Rule Applied ([2016] FWCFB 5500): Dismissal cannot take effect retrospectively before communication; because actual receipt/opportunity to read (" + aIso + ") was after stated date (" + sIso + "), Day 0 is " + effectiveIso + "."
+        : "Written/Email/SMS Notice (Ayub [2016] FWCFB 5500): Day 0 is the later of the stated termination date and when received with a reasonable opportunity to read (" + (effectiveIso || "-") + ").";
+    }
+
+    return {
+      effectiveDateIso: effectiveIso || null,
+      mode: m,
+      noticeSub: sub,
+      explanationKo: explainKo,
+      explanationEn: explainEn
+    };
+  }
+
+  function renderAyubHelper() {
+    var modeEl = document.getElementById("ayub-comm-mode");
+    var subWrap = document.getElementById("ayub-notice-subtype-wrap");
+    var subEl = document.getElementById("ayub-notice-subtype");
+    var statedEl = document.getElementById("ayub-stated-date");
+    var actualEl = document.getElementById("ayub-actual-date");
+    var outEl = document.getElementById("ayub-helper-output");
+    if (!modeEl || !outEl) return null;
+
+    var mode = modeEl.value || "written";
+    if (subWrap) {
+      subWrap.style.display = mode === "notice" ? "" : "none";
+    }
+    var res = computeAyubEffectiveDate(
+      mode,
+      statedEl ? statedEl.value : "",
+      actualEl ? actualEl.value : "",
+      subEl ? subEl.value : "working_out"
+    );
+    var day0Badge = res.effectiveDateIso
+      ? '<div style="font-weight:800;color:var(--pk-brand);margin-bottom:3px;">' +
+          (currentLang === "ko" ? "산출된 법정 Day 0 효력일: " : "Computed Statutory Day 0: ") +
+          '<code>' + res.effectiveDateIso + '</code></div>'
+      : '';
+    outEl.innerHTML = day0Badge + '<div>' + (currentLang === "ko" ? res.explanationKo : res.explanationEn) + '</div>';
+    return res;
+  }
+
+  function formatIcsDateCompact(isoStr) {
+    return String(isoStr || "").replace(/-/g, "");
+  }
+
+  function nextDayCompact(isoStr) {
+    var d = ParkCoDates.parseIsoLocal(isoStr);
+    if (!d) return formatIcsDateCompact(isoStr);
+    return formatIcsDateCompact(ParkCoDates.formatIsoLocal(ParkCoDates.addCalendarDays(d, 1)));
+  }
+
+  function escapeIcsText(str) {
+    return String(str || "")
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\r?\n/g, "\\n");
+  }
+
+  function buildDeadlineIcs(d1, lang) {
+    if (!d1 || !d1.safeIso || !d1.deadlineIso) return "";
+    var isEn = (lang || currentLang) === "en";
+    var dtStamp = "20261028T000000Z";
+    try {
+      dtStamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+    } catch (_) {}
+    var safeStart = formatIcsDateCompact(d1.safeIso);
+    var safeEnd = nextDayCompact(d1.safeIso);
+    var statStart = formatIcsDateCompact(d1.deadlineIso);
+    var statEnd = nextDayCompact(d1.deadlineIso);
+    var st = d1.stateCode || "QLD";
+
+    var safeSummary = isEn
+      ? "[Park & Co] Recommended Safe FWC Filing Target (" + st + ")"
+      : "[박앤코] FWC 21일 기한 보수적 안전 접수 권고일 (" + st + ")";
+    var safeDesc = isEn
+      ? "Recommended safe filing target ahead of your strict 21-day Fair Work Commission deadline (" + d1.deadlineIso + "). Contact: enquiry@parkcolawyers.com | https://parklawyers.com.au/links/"
+      : "공정근로위원회(FWC) 21일 법정 최종 마감일(" + d1.deadlineIso + ") 전 전산 지연 대비 안전 접수 권고일입니다. 공식 문의: enquiry@parkcolawyers.com | https://parklawyers.com.au/links/?lang=ko";
+
+    var statSummary = isEn
+      ? "[STRICT] 21-Day FWC Statutory Final Deadline (" + st + ")"
+      : "[법정불변] FWC 해고 후 21일 최종 마감일 (" + st + ")";
+    var statDesc = isEn
+      ? "Strict 21-calendar-day Fair Work Commission filing limit (ss 394, 366, 536LU; Acts Interpretation Act 1901 s 36(2) rollover checked for " + st + "). Filing Fee: " + dynamicThresholds.feeFmt + ". Contact: enquiry@parkcolawyers.com"
+      : "호주 공정근로법(ss 394, 366, 536LU) 및 Acts Interpretation Act 1901 s 36(2) " + st + " 공휴일 연장을 반영한 법정 최종 마감일입니다. 접수 수수료: " + dynamicThresholds.feeFmt + " | 문의: enquiry@parkcolawyers.com";
+
+    var lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Park & Co Lawyers//Australian Employment Law Navigator//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "UID:parkco-emp-safe-" + safeStart + "-" + st + "@parkcolawyers.com",
+      "DTSTAMP:" + dtStamp,
+      "DTSTART;VALUE=DATE:" + safeStart,
+      "DTEND;VALUE=DATE:" + safeEnd,
+      "SUMMARY:" + escapeIcsText(safeSummary),
+      "DESCRIPTION:" + escapeIcsText(safeDesc),
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:" + escapeIcsText(safeSummary),
+      "TRIGGER:-PT48H",
+      "END:VALARM",
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:" + escapeIcsText(safeSummary),
+      "TRIGGER:-PT24H",
+      "END:VALARM",
+      "END:VEVENT",
+      "BEGIN:VEVENT",
+      "UID:parkco-emp-statutory-" + statStart + "-" + st + "@parkcolawyers.com",
+      "DTSTAMP:" + dtStamp,
+      "DTSTART;VALUE=DATE:" + statStart,
+      "DTEND;VALUE=DATE:" + statEnd,
+      "SUMMARY:" + escapeIcsText(statSummary),
+      "DESCRIPTION:" + escapeIcsText(statDesc),
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:" + escapeIcsText(statSummary),
+      "TRIGGER:-PT48H",
+      "END:VALARM",
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:" + escapeIcsText(statSummary),
+      "TRIGGER:-PT24H",
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ];
+    return lines.join("\r\n") + "\r\n";
   }
 
   function renderNeutralPromptHtml(msgKo, msgEn) {
@@ -628,6 +1110,8 @@
       '</div>'
     );
   }
+
+  var lastComputedDeadline = null;
 
   function calcDeadlineRouter() {
     var out = document.getElementById("emp-deadline-output");
@@ -679,14 +1163,15 @@
     var serviceOk = months >= minMonths;
     var hitOk = salaryBand === "under_hit";
     var udEligible = serviceOk && hitOk && dType !== "platform_deactivation";
+    var s536ldEligible = dType === "platform_deactivation" ? (months >= 6) : null;
 
     var badgeColor = diffDays < 0 ? "#9E2A2B" : (diffDays <= 7 ? "#946200" : "#0E3A3E");
     var statusTextKo = diffDays < 0
       ? "🚨 21일 법정 기한 경과 (" + Math.abs(diffDays) + "일 지남) · 예외적 사정(s 394(3)/s 366(2)) 소명 또는 일반 민사·체불 청구 즉시 검토 필요"
-      : "⏰ FWC 법정 마감까지 " + diffDays + "일 남음 (" + stateCode + " 기준)";
+      : "⏰ FWC 법정 마감까지 " + diffDays + "일 남음 (" + stateCode + " 기준 · 접수 수수료 " + dynamicThresholds.feeFmt + ")";
     var statusTextEn = diffDays < 0
       ? "🚨 21-Day Statutory Limit Expired (" + Math.abs(diffDays) + " days overdue) · Urgent s 394(3)/s 366(2) Exceptional Circumstances or contractual review required"
-      : "⏰ " + diffDays + " day(s) remaining until FWC statutory deadline (" + stateCode + ")";
+      : "⏰ " + diffDays + " day(s) remaining until FWC statutory deadline (" + stateCode + " · Filing Fee " + dynamicThresholds.feeFmt + ")";
 
     var rolloverNoteKo = calc.rolledReason
       ? "원 21역일 만료일(" + calc.rawDate + ")이 " + calc.rolledReason + "에 해당하여 Acts Interpretation Act 1901 s 36(2)에 따라 다음 영업일로 연장됨"
@@ -700,29 +1185,41 @@
         '<div class="pk-deadline-box is-safe">' +
           '<div class="pk-deadline-box__label">' + (currentLang === "ko" ? "보수적 안전 접수 권고일" : "Recommended Safe Filing Date") + '</div>' +
           '<div class="pk-deadline-box__date">' + calc.safeDate + '</div>' +
-          '<div class="pk-deadline-box__note">' + (currentLang === "ko" ? "전산 지연·서류 보완 대비 최소 1일 전 접수 권장" : "File at least 1 day early to avoid portal/time-zone risk") + '</div>' +
+          '<div class="pk-deadline-box__note">' + (currentLang === "ko" ? "주말·공휴일을 제외한 직전 영업일 안전 접수 권장" : "Preceding business day target to avoid portal/time-zone risk") + '</div>' +
         '</div>' +
         '<div class="pk-deadline-box is-statutory">' +
           '<div class="pk-deadline-box__label">' + (currentLang === "ko" ? "법정 최종 마감일 (주별 공휴일 연장 반영)" : "Statutory Final Deadline (" + stateCode + " Holiday Rollover)") + '</div>' +
           '<div class="pk-deadline-box__date">' + calc.statutoryDate + '</div>' +
           '<div class="pk-deadline-box__note">' + (currentLang === "ko" ? rolloverNoteKo : rolloverNoteEn) + '</div>' +
         '</div>' +
+      '</div>' +
+      '<div style="margin-top:10px;display:flex;justify-content:flex-end;">' +
+        '<button type="button" id="btn-emp-download-ics" class="pk-btn-ghost" style="font-size:12px;padding:6px 12px;font-weight:700;">' +
+          (currentLang === "ko" ? "📅 21일 마감일 캘린더(.ics) 원클릭 저장 (48h·24h 알림)" : "📅 1-Click Download 21-Day Deadline (.ics Calendar)") +
+        '</button>' +
       '</div>';
 
     var trackKo = "";
     var trackEn = "";
     if (dType === "platform_deactivation") {
-      trackKo = "<strong>권고 절차: 디지털 플랫폼 부당 계정 비활성화 구제 신청 (Form F89 · s 536LU)</strong><br/>Closing Loopholes 개정법에 따라 6개월 이상 활동한 플랫폼 종사자는 계정 복구 명령을 청구할 수 있으나 정지일로부터 21일 안에 접수해야 합니다(<code>[2026] FWC 3921 Zhao</code>).";
-      trackEn = "<strong>Recommended Track: Digital Platform Unfair Deactivation Application (Form F89 · s 536LU)</strong>: Platform workers active for 6+ months can seek reactivation orders within the strict 21-day limit (<code>[2026] FWC 3921 Zhao</code>).";
+      if (!s536ldEligible) {
+        trackKo = '<div style="color:var(--pk-danger);margin-bottom:6px;"><strong>⚠️ s 536LD 최소 6개월 정기 활동 요건 미충족 (현재 ' + months + '개월):</strong></div>' +
+          '공정근로법(Fair Work Act 2009) <code>s 536LD</code>에 따라 디지털 노동 플랫폼 부당 계정 비활성화 구제 신청(Form F89 · s 536LU)은 최소 <strong>6개월 이상 정기적으로 플랫폼 노무를 수행(performing work on a regular basis for at least 6 months)</strong>한 종사자에게만 허용됩니다. 다만 최소 활동 기간 제한이 없는 <strong>일반보호 불이익 조치·차별 금지 경로(General Protections · s 340 / s 351 · 21일 기한 엄수)</strong> 또는 불공정 계약 조건 구제(s 536JQ) 대상인지 즉시 검토하시기 바랍니다.';
+        trackEn = '<div style="color:var(--pk-danger);margin-bottom:6px;"><strong>⚠️ s 536LD Minimum 6-Month Regular Engagement Not Yet Met (' + months + ' months):</strong></div>' +
+          'Under Fair Work Act 2009 <code>s 536LD</code>, a digital labour platform worker must have performed work on a regular basis for a period of at least <strong>6 months</strong> to lodge a Form F89 Unfair Deactivation claim (s 536LU). Consider alternative <strong>General Protections / anti-discrimination pathways (ss 340, 351 — no minimum period, strict 21-day limit where applicable)</strong> or unfair contract terms (s 536JQ).';
+      } else {
+        trackKo = "<strong>권고 절차: 디지털 플랫폼 부당 계정 비활성화 구제 신청 (Form F89 · s 536LU · s 536LD 충족)</strong><br/>정기 활동 기간(" + months + "개월 · <code>s 536LD</code> 최소 6개월 요건 충족)을 만족하므로 계정 복구 명령을 청구할 수 있으나 정지일로부터 21일 안에 접수해야 합니다(<code>[2026] FWC 3921 Zhao</code>).";
+        trackEn = "<strong>Recommended Track: Digital Platform Unfair Deactivation Application (Form F89 · s 536LU · s 536LD Met)</strong>: Regular engagement requirement (" + months + "m >= 6 months under <code>s 536LD</code>) is satisfied; file within the strict 21-day limit (<code>[2026] FWC 3921 Zhao</code>).";
+      }
     } else if (dType === "adverse_action" || !udEligible) {
-      trackKo = "<strong>권고 절차: 일반보호 해고 분쟁 신청 (General Protections Dismissal · Form F8 · s 365 / s 340)</strong><br/>최소 근속기간(" + minMonths + "개월) 미달이거나 고소득 기준선을 초과하더라도 임금·휴가·안전 문의 등 직장 내 권리(Workplace Right) 행사 후 해고되었다면 근속기간·연봉 상한 없이 신청할 수 있으며 입증책임도 고용주에게 전환(s 361)됩니다.";
-      trackEn = "<strong>Recommended Track: General Protections Dismissal (Form F8 · s 365 / s 340)</strong>: Even if minimum service (" + minMonths + "m) is not met or salary exceeds the High Income Threshold, s 365 applies with a reverse onus of proof (s 361) where dismissal followed a workplace right inquiry or complaint.";
+      trackKo = "<strong>권고 절차: 일반보호 해고 분쟁 신청 (General Protections Dismissal · Form F8 · s 365 / s 340)</strong><br/>최소 근속기간(" + minMonths + "개월) 미달이거나 고소득 기준선(" + dynamicThresholds.hitFmt + ")을 초과하더라도 임금·휴가·안전 문의 등 직장 내 권리(Workplace Right) 행사 후 해고되었다면 근속기간·연봉 상한 없이 신청할 수 있으며 입증책임도 고용주에게 전환(s 361)됩니다.";
+      trackEn = "<strong>Recommended Track: General Protections Dismissal (Form F8 · s 365 / s 340)</strong>: Even if minimum service (" + minMonths + "m) is not met or salary exceeds the High Income Threshold (" + dynamicThresholds.hitFmt + "), s 365 applies with a reverse onus of proof (s 361) where dismissal followed a workplace right inquiry or complaint.";
     } else if (dType === "forced_resignation") {
       trackKo = "<strong>권고 절차: 강제사직(Constructive Dismissal · s 386(1)(b)) 부당해고(Form F2) 또는 일반보호(Form F8)</strong><br/><code>[2026] FWC 3896 Shawriah</code> 결정에서 확인되듯 단순한 압박감만으로는 강제사직이 인정되지 않습니다. 아직 사직서를 제출하지 않았다면 자진 사직서를 먼저 내지 말고 서면 대응 전략부터 마련하시기 바랍니다.";
       trackEn = "<strong>Recommended Track: Constructive / Forced Resignation (s 386(1)(b)) under Form F2 or Form F8</strong>: Per <code>[2026] FWC 3896 Shawriah</code>, do NOT submit a voluntary resignation letter before securing legal advice.";
     } else {
-      trackKo = "<strong>권고 절차: 부당해고 구제 신청 (Unfair Dismissal · Form F2 · s 394)</strong><br/>최소 근속기간(" + minMonths + "개월 기준 현재 " + months + "개월)과 급여 요건을 모두 충족합니다. 해고가 가혹·부당·불합리(s 387)했거나 절차상 결함이 있는 정리해고(s 389)인 경우 최대 26주분 보상금(s 392)이나 복직을 청구할 수 있습니다.";
-      trackEn = "<strong>Recommended Track: Unfair Dismissal Application (Form F2 · s 394)</strong>: Minimum employment period (" + months + "m vs " + minMonths + "m required) and salary threshold satisfied. Eligible to claim up to 26 weeks' compensation (s 392) or reinstatement.";
+      trackKo = "<strong>권고 절차: 부당해고 구제 신청 (Unfair Dismissal · Form F2 · s 394)</strong><br/>최소 근속기간(" + minMonths + "개월 기준 현재 " + months + "개월)과 고소득 기준선(" + dynamicThresholds.hitFmt + ") 요건을 모두 충족합니다. 해고가 가혹·부당·불합리(s 387)했거나 절차상 결함이 있는 정리해고(s 389)인 경우 최대 26주분 보상금(s 392 · 상한 " + dynamicThresholds.capFmt + ")이나 복직을 청구할 수 있습니다.";
+      trackEn = "<strong>Recommended Track: Unfair Dismissal Application (Form F2 · s 394)</strong>: Minimum employment period (" + months + "m vs " + minMonths + "m required) and High Income Threshold (" + dynamicThresholds.hitFmt + ") satisfied. Eligible to claim up to 26 weeks' compensation (s 392 · " + dynamicThresholds.capFmt + " cap) or reinstatement.";
     }
 
     if (out) {
@@ -736,7 +1233,7 @@
         '</div>';
     }
 
-    return {
+    lastComputedDeadline = {
       safeIso: calc.safeDate,
       rawIso: calc.rawDate,
       deadlineIso: calc.statutoryDate,
@@ -744,8 +1241,11 @@
       stateCode: stateCode,
       diffDays: diffDays,
       udEligible: udEligible,
+      s536ldEligible: s536ldEligible,
+      months: months,
       dType: dType
     };
+    return lastComputedDeadline;
   }
 
   function calcRedundancySimulator() {
@@ -753,8 +1253,8 @@
     if (!hasInteracted) {
       if (out) {
         out.innerHTML = renderNeutralPromptHtml(
-          "근속연수·주급·재배치 절차 준수 여부를 선택하면 법정 해고예고수당(s 117), 정리해고수당(s 119) 및 부당해고 상한(26주·$95,050)을 비교 산출합니다.",
-          "Enter your years of service, weekly base pay, and s 389 compliance status to compare statutory NES payouts against the 26-week compensation cap."
+          "사업장 규모(s 121)·근속연수·주급·재배치 절차 준수 여부를 선택하면 법정 해고예고수당(s 117), 정리해고수당(s 119) 및 부당해고 상한(26주·" + dynamicThresholds.capFmt + ")을 비교 산출합니다.",
+          "Select employer size (s 121), years of service, weekly base pay, and s 389 compliance status to compare statutory NES payouts against the 26-week compensation cap (" + dynamicThresholds.capFmt + ")."
         );
       }
       return null;
@@ -780,7 +1280,10 @@
 
     var age45 = (document.getElementById("red-age-45") || {}).value === "over45";
     var redeploy = (document.getElementById("red-redeploy") || {}).value || "failed_redeploy";
-    var bizSize = (document.getElementById("emp-business-size") || {}).value || "standard";
+    /* Decoupled Section 2 Small Business (<15 employees, s 121 FW Act) toggle */
+    var redBizEl = document.getElementById("red-business-size");
+    var redBizSize = (redBizEl && redBizEl.value) ? redBizEl.value : "standard";
+    var isSmallRedundancy = redBizSize === "small";
 
     var noticeWeeks = 1;
     if (yrs >= 5) noticeWeeks = 4;
@@ -789,7 +1292,7 @@
     if (age45 && yrs >= 2) noticeWeeks += 1;
 
     var redWeeks = 0;
-    if (bizSize !== "small") {
+    if (!isSmallRedundancy) {
       if (yrs >= 10) redWeeks = 12;
       else if (yrs >= 9) redWeeks = 16;
       else if (yrs >= 8) redWeeks = 14;
@@ -804,34 +1307,48 @@
 
     var noticePay = Math.round(noticeWeeks * weekly);
     var redPay = Math.round(redWeeks * weekly);
-    var maxUdComp = Math.min(95050, Math.round(26 * weekly));
+    var maxUdComp = Math.min(dynamicThresholds.capAud, Math.round(26 * weekly));
 
     if (out) {
+      var smallBizNoteHtml = isSmallRedundancy
+        ? (currentLang === "ko"
+            ? '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ s 121 소규모 사업장(15인 미만) NES 정리해고수당 면제 적용:</strong> 해고 시점 총 근로자 수(계열사 합산 s 23)가 15인 미만인 사업장은 법정 NES 정리해고수당(s 119) 지급 의무가 면제(0주)됩니다(단 특정 Modern Award·계약상 별도 규정 확인 필요). 반면 <strong>s 117 법정 해고예고수당(' + noticeWeeks + '주)은 동일하게 지급</strong>해야 합니다.</div>'
+            : '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ Small Business (&lt;15 Employees) s 121 NES Redundancy Exemption Active:</strong> Employers with fewer than 15 employees (incl. associated entities per s 23) are exempt from statutory s 119 NES redundancy pay ($0 unless an industry Award/contract provides otherwise), while <strong>s 117 NES Notice Pay (' + noticeWeeks + ' wks) still applies</strong>.</div>')
+        : "";
+
       var defectBanner = redeploy === "failed_redeploy"
         ? (currentLang === "ko"
-            ? '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ s 389 부적법 정리해고(Non-Genuine Redundancy) 위험:</strong> 사내·계열사 재배치(Redeployment) 검토나 Award 사전 협의를 누락하면 정리해고 면책이 배제되어 <code>[2026] FWC 3112 Yorston</code> 사건과 같이 <strong>최대 26주분 부당해고 배상금($' + maxUdComp.toLocaleString() + ')</strong> 청구 대상이 될 수 있습니다.</div>'
-            : '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ Non-Genuine Redundancy Defect (s 389):</strong> Failure to consult or offer reasonable redeployment strips the redundancy immunity, exposing the employer to the <strong>26-week Unfair Dismissal cap ($' + maxUdComp.toLocaleString() + ')</strong> per <code>[2026] FWC 3112 Yorston</code>.</div>')
+            ? '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ s 389 부적법 정리해고(Non-Genuine Redundancy) 위험:</strong> ' + (isSmallRedundancy ? '소규모 사업장(12개월 이상 근속자 대상)이라도 ' : '') + '사내·계열사 재배치(Redeployment) 검토나 Award 사전 협의를 누락하면 정리해고 면책이 배제되어 <code>[2026] FWC 3112 Yorston</code> 사건과 같이 <strong>최대 26주분 부당해고 배상금($' + maxUdComp.toLocaleString() + ' · 상한 ' + dynamicThresholds.capFmt + ')</strong> 청구 대상이 될 수 있습니다.</div>'
+            : '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ Non-Genuine Redundancy Defect (s 389):</strong> ' + (isSmallRedundancy ? 'Even for a small business (where 12m+ service is met), failure ' : 'Failure ') + 'to consult or offer reasonable redeployment strips the redundancy immunity, exposing the employer to the <strong>26-week Unfair Dismissal cap ($' + maxUdComp.toLocaleString() + ' · ' + dynamicThresholds.capFmt + ' max)</strong> per <code>[2026] FWC 3112 Yorston</code>.</div>')
         : (currentLang === "ko"
-            ? '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ s 389 적법 정리해고 요건 충족:</strong> 직무 소멸·사전 서면 협의·재배치 불가 기록이 입증된 경우 부당해고 구제 신청 대상에서 제외되며 법정 해고예고 및 정리해고수당만 정산합니다.</div>'
-            : '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ Genuine Redundancy (s 389) Satisfied:</strong> Where operational change, Award consultation, and non-redeployment are documented, unfair dismissal is barred and statutory NES entitlements apply.</div>');
+            ? '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ s 389 적법 정리해고 요건 충족:</strong> 직무 소멸·사전 서면 협의·재배치 불가 기록이 입증된 경우 부당해고 구제 신청 대상에서 제외되며 ' + (isSmallRedundancy ? '소규모 사업장 면제(s 121)에 따라 법정 해고예고수당(s 117)을 정산합니다.' : '법정 해고예고 및 정리해고수당만 정산합니다.') + '</div>'
+            : '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ Genuine Redundancy (s 389) Satisfied:</strong> Where operational change, Award consultation, and non-redeployment are documented, unfair dismissal is barred and ' + (isSmallRedundancy ? 'statutory s 117 notice pay applies (s 121 small-business redundancy exemption).' : 'statutory NES notice and redundancy entitlements apply.') + '</div>');
 
-      out.innerHTML = defectBanner +
+      out.innerHTML = smallBizNoteHtml + defectBanner +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">' +
           '<div style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
             '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? "법정 해고예고수당 (s 117)" : "NES Notice Pay (s 117)") + '</div>' +
             '<div style="font-size:18px;font-weight:800;color:var(--pk-ink);">' + noticeWeeks + ' wks ($' + noticePay.toLocaleString() + ')</div>' +
           '</div>' +
           '<div style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
-            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? "법정 정리해고수당 (s 119)" : "NES Redundancy Pay (s 119)") + '</div>' +
+            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? (isSmallRedundancy ? "법정 정리해고수당 (s 121 면제)" : "법정 정리해고수당 (s 119)") : (isSmallRedundancy ? "NES Redundancy (s 121 Exempt)" : "NES Redundancy Pay (s 119)")) + '</div>' +
             '<div style="font-size:18px;font-weight:800;color:var(--pk-brand);">' + redWeeks + ' wks ($' + redPay.toLocaleString() + ')</div>' +
           '</div>' +
           '<div style="background:var(--pk-warn-bg);border:1px solid var(--pk-accent);padding:12px;border-radius:8px;">' +
-            '<div style="font-size:11.5px;color:var(--pk-warn);">' + (currentLang === "ko" ? "부당해고 최대 배상금 (s 392 · 상한 $95,050)" : "Max Unfair Dismissal Cap (s 392 · $95,050 cap)") + '</div>' +
+            '<div style="font-size:11.5px;color:var(--pk-warn);">' + (currentLang === "ko" ? "부당해고 최대 배상금 (s 392 · 상한 " + dynamicThresholds.capFmt + ")" : "Max Unfair Dismissal Cap (s 392 · " + dynamicThresholds.capFmt + " cap)") + '</div>' +
             '<div style="font-size:18px;font-weight:800;color:var(--pk-danger);">26 wks ($' + maxUdComp.toLocaleString() + ')</div>' +
           '</div>' +
         '</div>';
     }
-    return { noticeWeeks: noticeWeeks, noticePay: noticePay, redWeeks: redWeeks, redPay: redPay, maxUdComp: maxUdComp };
+    return {
+      noticeWeeks: noticeWeeks,
+      noticePay: noticePay,
+      redWeeks: redWeeks,
+      redPay: redPay,
+      maxUdComp: maxUdComp,
+      redBizSize: redBizSize,
+      smallBizExempt: isSmallRedundancy
+    };
   }
 
   function calcComplianceAudit() {
@@ -1250,6 +1767,107 @@
     }).join("");
   }
 
+  function syncDynamicThresholdDom() {
+    if (typeof document === "undefined") return;
+    var fwcEl = document.getElementById("stat-val-fwc");
+    if (fwcEl) fwcEl.textContent = dynamicThresholds.feeFmt;
+    var capEl = document.getElementById("stat-val-cap");
+    if (capEl) capEl.textContent = (currentLang === "ko" ? "26주 / " : "26 Wks / ") + dynamicThresholds.capFmt;
+    if (typeof document.querySelectorAll === "function") {
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var k = el.getAttribute("data-i18n");
+        if (
+          k === "heroLead" || k === "lblSalaryBand" || k === "optUnderHit" ||
+          k === "optOverHit" || k === "m2Desc" || k === "statSubCap"
+        ) {
+          var baseDict = currentLang === "en" ? EN_TRANSLATIONS : KO_TRANSLATIONS;
+          if (baseDict[k]) {
+            el.innerHTML = baseDict[k]
+              .replace(/\$190,100/g, dynamicThresholds.hitFmt)
+              .replace(/\$95,050/g, dynamicThresholds.capFmt)
+              .replace(/\$92\.70/g, dynamicThresholds.feeFmt);
+          }
+        }
+      });
+    }
+  }
+
+  function applyPollingThresholds(data) {
+    if (!data || typeof data !== "object") return dynamicThresholds;
+    var th = data.thresholds || {};
+    var hm = data.headline_metrics || {};
+
+    var hitAud = Number(th.high_income_threshold_aud || 0);
+    if (!hitAud && typeof hm.high_income_threshold === "string") {
+      var mHit = /\$([0-9,]+)/.exec(hm.high_income_threshold);
+      if (mHit) hitAud = parseInt(mHit[1].replace(/,/g, ""), 10) || 0;
+    }
+    if (hitAud > 0) {
+      dynamicThresholds.hitAud = hitAud;
+      dynamicThresholds.hitFmt = "$" + hitAud.toLocaleString("en-AU");
+    }
+
+    var capAud = Number(th.max_ud_compensation_aud || 0);
+    if (!capAud && typeof hm.max_ud_compensation === "string") {
+      var mCap = /\$([0-9,]+)/.exec(hm.max_ud_compensation);
+      if (mCap) capAud = parseInt(mCap[1].replace(/,/g, ""), 10) || 0;
+    }
+    if (!capAud && hitAud > 0) {
+      capAud = Math.floor(hitAud / 2);
+    }
+    if (capAud > 0) {
+      dynamicThresholds.capAud = capAud;
+      dynamicThresholds.capFmt = "$" + capAud.toLocaleString("en-AU");
+    }
+
+    var feeAud = Number(th.fwc_application_fee_aud || 0);
+    if (!feeAud && typeof hm.fwc_application_fee === "string") {
+      var mFee = /\$([0-9]+(?:\.[0-9]{1,2})?)/.exec(hm.fwc_application_fee);
+      if (mFee) feeAud = parseFloat(mFee[1]) || 0;
+    }
+    if (feeAud > 0) {
+      dynamicThresholds.feeAud = feeAud;
+      dynamicThresholds.feeFmt = "$" + feeAud.toFixed(2);
+    }
+
+    syncDynamicThresholdDom();
+    if (hasInteracted) {
+      updateDiagnosticBrief();
+    }
+    return dynamicThresholds;
+  }
+
+  function resolveToolDeepLink(toolParam) {
+    var key = String(toolParam || "").trim().toLowerCase();
+    return TOOL_DEEPLINK_MAP[key] || null;
+  }
+
+  function applyToolDeepLink(toolParam) {
+    var targetId = resolveToolDeepLink(toolParam);
+    if (!targetId || typeof document === "undefined") return null;
+    if (typeof document.querySelectorAll === "function") {
+      document.querySelectorAll(".section-block").forEach(function (sec) {
+        if (sec.classList && sec.classList.remove) sec.classList.remove("is-deeplink-active");
+      });
+    }
+    var targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      if (targetEl.classList && targetEl.classList.add) {
+        targetEl.classList.add("is-deeplink-active");
+      } else {
+        targetEl.className = (targetEl.className || "") + " is-deeplink-active";
+      }
+      if (typeof targetEl.scrollIntoView === "function") {
+        try {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (_) {
+          targetEl.scrollIntoView();
+        }
+      }
+    }
+    return targetId;
+  }
+
   function loadEmpPollingStatus() {
     if (typeof fetch !== "function") return;
     fetch("data/polling_status.json", { cache: "no-store" })
@@ -1257,6 +1875,7 @@
       .then(function (data) {
         if (!data) return;
         cachedPollingStatus = data;
+        applyPollingThresholds(data);
         renderEmpPollerMatrix();
       })
       .catch(function () {});
@@ -1277,10 +1896,26 @@
       if (document.documentElement) document.documentElement.lang = currentLang;
       if (document.body) document.body.setAttribute("data-ui-lang", currentLang);
       var dict = currentLang === "en" ? EN_TRANSLATIONS : KO_TRANSLATIONS;
+      if (dict.docTitle) document.title = dict.docTitle;
       document.querySelectorAll("[data-i18n]").forEach(function (el) {
         var k = el.getAttribute("data-i18n");
         if (dict[k]) el.innerHTML = dict[k];
       });
+      var vcTot = document.getElementById("vc-lbl-total");
+      var vcTod = document.getElementById("vc-lbl-today");
+      var vcVis = document.getElementById("vc-lbl-visitors");
+      var vcBox = document.getElementById("visit-counter");
+      if (vcTot) vcTot.textContent = currentLang === "en" ? "Total visits" : "누적 방문";
+      if (vcTod) vcTod.textContent = currentLang === "en" ? "Today" : "오늘 방문";
+      if (vcVis) vcVis.textContent = currentLang === "en" ? "Visitors" : "방문자";
+      if (vcBox && vcBox.setAttribute) {
+        vcBox.setAttribute(
+          "title",
+          currentLang === "en"
+            ? "Click for daily visits & referral sources"
+            : "클릭하면 일별 방문 추이와 유입 경로를 볼 수 있어요"
+        );
+      }
       document.querySelectorAll(".lang-btn").forEach(function (btn) {
         btn.classList.toggle("active", btn.getAttribute("data-lang") === currentLang);
       });
@@ -1295,6 +1930,8 @@
           window.history.replaceState({}, "", u.toString());
         } catch (_) {}
       }
+      syncDynamicThresholdDom();
+      renderAyubHelper();
       renderEmpFwcAuthorities();
       renderAbfCrossoverSummary();
       renderEmpPollerMatrix();
@@ -1326,7 +1963,7 @@
       initDefaultDate();
       [
         "emp-dismissal-date", "emp-state", "emp-business-size", "emp-service-months", "emp-salary-band", "emp-dismissal-type",
-        "red-years", "red-weekly-pay", "red-age-45", "red-redeploy",
+        "red-business-size", "red-years", "red-weekly-pay", "red-age-45", "red-redeploy",
         "audit-contractor", "audit-pay", "audit-disconnect",
         "cross-visa-type", "cross-days-elapsed", "cross-issue"
       ].forEach(function (id) {
@@ -1337,11 +1974,49 @@
         }
       });
 
+      ["ayub-comm-mode", "ayub-notice-subtype", "ayub-stated-date", "ayub-actual-date"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", renderAyubHelper);
+          el.addEventListener("change", renderAyubHelper);
+        }
+      });
+
+      var ayubApplyBtn = document.getElementById("btn-ayub-apply");
+      if (ayubApplyBtn) {
+        ayubApplyBtn.addEventListener("click", function () {
+          var res = renderAyubHelper();
+          var dInput = document.getElementById("emp-dismissal-date");
+          if (res && res.effectiveDateIso && dInput) {
+            dInput.value = res.effectiveDateIso;
+            activateAndRecalculate();
+          }
+        });
+      }
+
       document.addEventListener("click", function (ev) {
         var t = ev.target && ev.target.closest ? ev.target.closest("#btn-emp-demo, .emp-demo-trigger") : null;
         if (t) {
           ev.preventDefault();
           loadDemoSample();
+          return;
+        }
+        var icsBtn = ev.target && ev.target.closest ? ev.target.closest("#btn-emp-download-ics") : null;
+        if (icsBtn) {
+          ev.preventDefault();
+          var d1 = lastComputedDeadline || calcDeadlineRouter();
+          var icsContent = buildDeadlineIcs(d1, currentLang);
+          if (icsContent && typeof Blob !== "undefined" && typeof URL !== "undefined" && URL.createObjectURL) {
+            var blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "parkco-fwc-21day-deadline-" + (d1.deadlineIso || "reminder") + ".ics";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+          }
         }
       });
 
@@ -1395,6 +2070,10 @@
       } else {
         applyLanguage("ko", false);
       }
+      var toolParam = params.get("tool");
+      if (toolParam) {
+        applyToolDeepLink(toolParam);
+      }
       loadEmpPollingStatus();
     });
   }
@@ -1407,6 +2086,13 @@
     calcRedundancySimulator: calcRedundancySimulator,
     calcComplianceAudit: calcComplianceAudit,
     calcVisaCrossover: calcVisaCrossover,
+    computeAyubEffectiveDate: computeAyubEffectiveDate,
+    renderAyubHelper: renderAyubHelper,
+    buildDeadlineIcs: buildDeadlineIcs,
+    applyPollingThresholds: applyPollingThresholds,
+    resolveToolDeepLink: resolveToolDeepLink,
+    applyToolDeepLink: applyToolDeepLink,
+    getDynamicThresholds: function () { return dynamicThresholds; },
     applyLanguage: applyLanguage,
     setAbfSummaryForTest: function (d) {
       cachedAbfSummary = d;

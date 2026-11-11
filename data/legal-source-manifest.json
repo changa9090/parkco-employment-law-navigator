@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T22:00:42Z",
+  "generated_at": "2026-11-11T12:05:37Z",
   "sources": [
     {
       "id": "fwc-high-income-threshold",
@@ -11,10 +11,10 @@
       "status": "verified_ok",
       "live_ok": true,
       "http_status": 200,
-      "bytes": 878390,
+      "bytes": 878388,
       "method": "https-direct-live",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "e82f0fa7f5ae3f449c23df2ff55901bcd92940875aaa4d5a6a6eb30d9fcb33d8",
       "sha256_prefix": "e82f0fa7f5ae3f44",
       "extracted_figures": [
@@ -35,8 +35,8 @@
       "http_status": 200,
       "bytes": 593411,
       "method": "https-direct-live",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "39b17e66b232e993d666ed9275f42c50dfe43475c360305fe1470b6f7c573ee5",
       "sha256_prefix": "39b17e66b232e993",
       "extracted_figures": [
@@ -57,8 +57,8 @@
       "http_status": 200,
       "bytes": 2784156,
       "method": "frl-legis-store-c73-C2026C00355",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "4c31416e07df518c2df647574ced40328db777a9a25a5691dc2afabc78dfa9cc",
       "sha256_prefix": "4c31416e07df518c",
       "extracted_figures": [
@@ -82,8 +82,8 @@
       "http_status": 200,
       "bytes": 381133,
       "method": "frl-legis-store-c57-F2026C00996",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "3ec5b90f9a5b16b567a3f4628a19ade9b03f345ba578a2e27017a07b20062bb3",
       "sha256_prefix": "3ec5b90f9a5b16b5",
       "extracted_figures": [
@@ -107,8 +107,8 @@
       "http_status": 200,
       "bytes": 4868,
       "method": "frl-legis-store-c0-F2024L00776",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "7fc93927c81bb39a7aca533395b80d911856736f1d2d3ec9f25496a9208ab635",
       "sha256_prefix": "7fc93927c81bb39a",
       "extracted_figures": [
@@ -132,8 +132,8 @@
       "http_status": 200,
       "bytes": 566506,
       "method": "https-direct-live",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "5132c74f6323e234e7f46d79e9a79df658f58e5d23e15421864921a0e4d2736d",
       "sha256_prefix": "5132c74f6323e234",
       "extracted_figures": [
@@ -153,8 +153,8 @@
       "http_status": 200,
       "bytes": 2827426,
       "method": "https-direct-live",
-      "last_checked": "2026-11-08T22:00:42Z",
-      "last_good_at": "2026-11-08T22:00:42Z",
+      "last_checked": "2026-11-11T12:05:37Z",
+      "last_good_at": "2026-11-11T12:05:37Z",
       "sha256": "e0255a228e9be260709846205b0d9ecb291002124247c62e2d1946ea496dc4e4",
       "sha256_prefix": "e0255a228e9be260",
       "extracted_figures": [

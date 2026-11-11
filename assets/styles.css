@@ -1216,10 +1216,10 @@ table.occ-table tr:hover td {
   flex-wrap: wrap;
 }
 
-/* Park & Co Unified Visit Counter & Referral Modal v2.1 */
+/* Park & Co Unified Visit Counter & Referral Modal v3.0 */
 .visit-counter { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; align-items: center; }
 .visit-counter[hidden] { display: none !important; }
-.visit-counter:not([hidden]) { cursor: pointer; }
+.visit-counter:not([hidden]) { display: flex !important; cursor: pointer; }
 .visit-counter > span em { font-style: normal; }
 .visit-counter > span { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; padding: 5px 13px; font-size: 12.5px; color: #E8E2D9; display: inline-flex; align-items: center; transition: border-color 0.15s ease, background 0.15s ease; }
 .visit-counter:not([hidden]):hover > span { border-color: #FDE68A; background: rgba(255, 255, 255, 0.11); }
@@ -1271,6 +1271,42 @@ table.occ-table tr:hover td {
 .vc-share-chip { border: 1px solid #DED6C8; background: #FAF7F2; color: #2E2A28; border-radius: 999px;
   padding: 4px 10px; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.14s ease; }
 .vc-share-chip:hover { border-color: #7A1F2B; background: #F4E6E8; color: #7A1F2B; }
+
+/* Ayub Effective Date Helper & Deep-Link Highlight */
+.pk-subhelper {
+  margin: 8px 0 14px;
+  border: 1px solid var(--pk-line);
+  border-radius: 8px;
+  background: var(--pk-surface-2, #FBF9F5);
+  overflow: hidden;
+}
+.pk-subhelper > summary {
+  cursor: pointer;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--pk-brand);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pk-subhelper > summary::-webkit-details-marker { display: none; }
+.pk-subhelper > summary::after { content: "▾"; font-size: 12px; color: var(--pk-muted); }
+.pk-subhelper[open] > summary::after { content: "▴"; }
+.pk-subhelper__body {
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--pk-line);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.section-block.is-deeplink-active {
+  outline: 2px solid var(--pk-brand);
+  outline-offset: 8px;
+  border-radius: 12px;
+  transition: outline-color 0.3s ease;
+}
 
 /* Responsive Breakpoints */
 @media (max-width: 1024px) {
