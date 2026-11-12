@@ -956,7 +956,7 @@
         explainEn = "Working Out Notice: Day 0 is the expiry of the notice period / final day of employment (" + (effectiveIso || "-") + ").";
       }
     } else {
-      /* Written / Email / SMS / Post — Ayub v NSW Trains [2016] FWCFB 5500 */
+      /* Written / Email / SMS / Post · Ayub v NSW Trains [2016] FWCFB 5500 */
       if (sIso && aIso) {
         effectiveIso = aIso > sIso ? aIso : sIso;
       } else {
@@ -1206,7 +1206,7 @@
         trackKo = '<div style="color:var(--pk-danger);margin-bottom:6px;"><strong>⚠️ s 536LD 최소 6개월 정기 활동 요건 미충족 (현재 ' + months + '개월):</strong></div>' +
           '공정근로법(Fair Work Act 2009) <code>s 536LD</code>에 따라 디지털 노동 플랫폼 부당 계정 비활성화 구제 신청(Form F89 · s 536LU)은 최소 <strong>6개월 이상 정기적으로 플랫폼 노무를 수행(performing work on a regular basis for at least 6 months)</strong>한 종사자에게만 허용됩니다. 다만 최소 활동 기간 제한이 없는 <strong>일반보호 불이익 조치·차별 금지 경로(General Protections · s 340 / s 351 · 21일 기한 엄수)</strong> 또는 불공정 계약 조건 구제(s 536JQ) 대상인지 즉시 검토하시기 바랍니다.';
         trackEn = '<div style="color:var(--pk-danger);margin-bottom:6px;"><strong>⚠️ s 536LD Minimum 6-Month Regular Engagement Not Yet Met (' + months + ' months):</strong></div>' +
-          'Under Fair Work Act 2009 <code>s 536LD</code>, a digital labour platform worker must have performed work on a regular basis for a period of at least <strong>6 months</strong> to lodge a Form F89 Unfair Deactivation claim (s 536LU). Consider alternative <strong>General Protections / anti-discrimination pathways (ss 340, 351 — no minimum period, strict 21-day limit where applicable)</strong> or unfair contract terms (s 536JQ).';
+          'Under Fair Work Act 2009 <code>s 536LD</code>, a digital labour platform worker must have performed work on a regular basis for a period of at least <strong>6 months</strong> to lodge a Form F89 Unfair Deactivation claim (s 536LU). Consider alternative <strong>General Protections / anti-discrimination pathways (ss 340, 351 · no minimum period, strict 21-day limit where applicable)</strong> or unfair contract terms (s 536JQ).';
       } else {
         trackKo = "<strong>권고 절차: 디지털 플랫폼 부당 계정 비활성화 구제 신청 (Form F89 · s 536LU · s 536LD 충족)</strong><br/>정기 활동 기간(" + months + "개월 · <code>s 536LD</code> 최소 6개월 요건 충족)을 만족하므로 계정 복구 명령을 청구할 수 있으나 정지일로부터 21일 안에 접수해야 합니다(<code>[2026] FWC 3921 Zhao</code>).";
         trackEn = "<strong>Recommended Track: Digital Platform Unfair Deactivation Application (Form F89 · s 536LU · s 536LD Met)</strong>: Regular engagement requirement (" + months + "m >= 6 months under <code>s 536LD</code>) is satisfied; file within the strict 21-day limit (<code>[2026] FWC 3921 Zhao</code>).";
@@ -1565,7 +1565,7 @@
       ? "• 3. Visa Crossover: Valid days elapsed required"
       : d4.nonSponsored
         ? "• 3. Visa Status: " + d4.visaLabel + " (Non-sponsored open work rights · work-hour & Subclass 408 review)"
-        : "• 3. Visa Status: " + d4.visaLabel + " · " + d4.days + " days elapsed (" + (d4.over180 ? "OVER 180-DAY LIMIT — URGENT" : d4.remain180 + " days left of 180-day limit") + ")";
+        : "• 3. Visa Status: " + d4.visaLabel + " · " + d4.days + " days elapsed (" + (d4.over180 ? "OVER 180-DAY LIMIT · URGENT" : d4.remain180 + " days left of 180-day limit") + ")";
 
     var brief = currentLang === "ko"
       ? [
