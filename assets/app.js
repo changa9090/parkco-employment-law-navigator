@@ -509,6 +509,16 @@
 
   var EMP_FWC_AUTHORITIES = [
     {
+      citation: "[2025] HCA 29",
+      parties: "Helensburgh Coal Pty Ltd v Bartley",
+      date: "2025-08-06",
+      tag_ko: "정리해고 재배치 심사 범위 대법원 판결 (s 389(2))",
+      tag_en: "High Court Redeployment Inquiry Scope (s 389(2))",
+      summary_ko: "호주 연방대법원(High Court)은 FWC가 정리해고 재배치 합리성(s 389(2))을 심사할 때 사업장 내 빈자리뿐 아니라 기존 외주·도급 인력이 수행하던 업무를 해고 대상 근로자로 대체해 재배치할 수 있었는지까지 심리할 수 있다고 판시했습니다.",
+      summary_en: "High Court of Australia held that under s 389(2), the FWC may inquire into whether an employer could have made changes to how it uses its workforce (including insourcing work performed by external contractors) to redeploy otherwise redundant employees.",
+      url: "https://www.fwc.gov.au/job-loss-or-dismissal/unfair-dismissal"
+    },
+    {
       citation: "[2026] FWC 3112",
       parties: "Mr Brogan Yorston v NRR Services Pty Ltd",
       date: "2026-10-14",
@@ -522,9 +532,9 @@
       citation: "[2026] FWCFB 273",
       parties: "Ms Kirina De Lorenzo v Persol Staffing Australia Pty Ltd",
       date: "2026-10-14",
-      tag_ko: "해고 후 21일 불변 기한 엄격 적용 (s 394(3))",
+      tag_ko: "해고 후 21일 법정 신청기한 엄격 적용 (s 394(3))",
       tag_en: "Strict 21-Day Filing Deadline Enforced (s 394(3))",
-      summary_ko: "21일 법정 기한을 넘긴 부당해고 신청에서 예외적 사정(Exceptional Circumstances)을 인정하지 않고 항고 허가를 기각하여 21일 기한 원칙을 재확인한 전원합의체(Full Bench) 결정입니다.",
+      summary_ko: "21일 법정 기한을 넘긴 부당해고 신청에서 예외적 사정(Exceptional Circumstances)을 인정하지 않고 항고 허가를 기각하여 21일 법정 신청기한 원칙을 재확인한 전원합의체(Full Bench) 결정입니다.",
       summary_en: "Full Bench refused permission to appeal an out-of-time unfair dismissal application, confirming strict enforcement of the 21-calendar-day limit under s 394(2)-(3).",
       url: "https://www.fwc.gov.au/job-loss-or-dismissal/unfair-dismissal"
     },
@@ -567,12 +577,13 @@
     navM2: "정리해고·보상금",
     navM3: "위장도급·체불",
     navM4: "비자×노동법",
+    navM5Hub: "고용법 48문 48답",
     ecoEmpFaqLink: "고용법 FAQ",
     ecoFaqLink: "이민 FAQ",
     ecoSvcConsult: "공식 문의 허브",
     btnPrint: "인쇄",
-    urgentBadge: "FWC 21일 불변 기한:",
-    urgentText: "부당해고(s 394)·일반보호(s 365)·플랫폼 계정정지(s 536LU)는 해고 효력일 다음 날부터 21 역일 이내 접수 필수 (주말·주별 공휴일 마감 시 s 36(2) 익영업일 연장)",
+    urgentBadge: "FWC 21일 법정 신청기한:",
+    urgentText: "부당해고(s 394)·일반보호(s 365)·플랫폼 계정정지(s 536LU)는 해고 효력일 다음 날부터 21 역일 이내 접수 필수 (주말·주별 공휴일 마감 시 s 36(2) 익영업일 연장 · 기한 도과 시 예외적 사정 심사)",
     heroEyebrow: "FAIR WORK ACT 2009 (CTH) · FAIR WORK COMMISSION · MIGRATION ACT CROSSOVER",
     heroTitle: "호주 고용법 & 스폰서 비자 교차 진단 내비게이터",
     heroLead: "공정근로위원회(FWC) 해고 후 21일 기한(주별 공휴일 반영), 정리해고·26주 보상금(상한 $95,050), 위장도급·임금체불 및 비자 체류권 보호를 즉시 점검합니다.",
@@ -692,7 +703,7 @@
     disclosureBgTitle: "배경 통계 · 21일 법정 타임라인 · 주요 공정근로위원회(FWC) 선례 및 전담 변호사 안내 펼쳐보기",
     statLabelDeadline: "FWC 해고 불복 기한",
     statValDeadline: "21일",
-    statSubDeadline: "ss 394 · 366 · 536LU (불변)",
+    statSubDeadline: "ss 394 · 366 · 536LU (법정 기한)",
     statLabelCap: "부당해고 보상 한도",
     statValCap: "26주 / $95,050",
     statSubCap: "s 392(5) · 고소득 기준 $190,100",
@@ -727,14 +738,23 @@
     thPollerHash: "SHA-256 해시 · 용량",
     thPollerStatus: "폴링 검증 상태",
     footerFirmName: "법무법인 박앤코 (PNC Legal Pty Ltd t/a Park & Co Lawyers)",
-    footerNotice: "이 내비게이터는 호주 공정근로법(Fair Work Act 2009)과 이민법 원문을 바탕으로 일반 법률 정보를 안내하며 정식 수임 계약 전 개별 법률 자문(Legal Advice)을 대신하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 법정 불변 기한이므로 지체 없이 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>)에게 문의하시기 바랍니다.",
+    footerNotice: "이 내비게이터는 호주 공정근로법(Fair Work Act 2009)과 이민법 원문을 바탕으로 일반 법률 정보를 안내하며 정식 수임 계약 전 개별 법률 자문(Legal Advice)을 대신하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 법정 신청기한(주말·공휴일 익영업일 연장 및 예외적 사정 연장 심사 대상)이므로 지체 없이 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>)에게 문의하시기 바랍니다.",
     footerOfficialLabel: "공식 문의:",
     footerHubLink: "← 박앤코 법률·비자 통합 허브",
     ecoFamilyLink: "호주 가족법 · 연방순회·가족법원(FCFCOA) 판례",
     footerDiyLink: "25개 Modern Awards 체불임금 계산기 & FWC 서식 가이드",
     footerVisaGuideLink: "퇴사·해고 후 대체 비자 6단계 자동 진단",
     footerEmpFaqLink: "호주 고용법 공식 실무 FAQ (faq.immispecialist.com/employment)",
-    footerFaqLink: "호주 이민·스폰서 실무 FAQ (faq.immispecialist.com)"
+    footerFaqLink: "호주 이민·스폰서 실무 FAQ (faq.immispecialist.com)",
+    empHubBadge: "FAIR WORK ACT 2009 · 48-QUESTION DUAL-PERSPECTIVE KNOWLEDGE HUB",
+    empHubTitle: "5. 호주 고용법 · FWC 48문항 실무 백과 (근로자 · 고용주 양방향 통합)",
+    empHubDesc: "부당해고(s 394)·일반보호(s 365)·강제사직(s 386)·정리해고(s 389 / Helensburgh Coal [2025] HCA 29)·임금체불 형사처벌(s 327A)·스폰서 비자 교차 쟁점 48개 실무 문답을 검색하고 공식 FAQ 전문으로 바로 연결할 수 있습니다.",
+    empHubCatAll: "전체 카테고리 (48문항)",
+    empHubCatDismissal: "해고 · 일반보호 · FWC 절차",
+    empHubCatWages: "임금 · 수당 · 연금 · 휴가",
+    empHubCatContract: "계약 · 수습 · 위장도급(ABN)",
+    empHubCatSafety: "괴롭힘 · 산재 · 정당한 지시",
+    empHubCatVisa: "스폰서 비자 · 공정근로 교차"
   };
 
   var EN_TRANSLATIONS = {
@@ -744,6 +764,7 @@
     navM2: "Redundancy & Cap",
     navM3: "Contractor & Wage",
     navM4: "Visa × Fair Work",
+    navM5Hub: "48-Q Knowledge Hub",
     ecoEmpFaqLink: "Employment FAQ",
     ecoFaqLink: "Immi FAQ",
     ecoSvcConsult: "Official Inquiry Hub",
@@ -911,7 +932,16 @@
     footerDiyLink: "25 Modern Awards Unpaid-Wage Calculator & FWC Forms Guide",
     footerVisaGuideLink: "Post-Dismissal Alternative Visa 6-Step Diagnostic",
     footerEmpFaqLink: "Australian Employment Law Official FAQ (faq.immispecialist.com/employment)",
-    footerFaqLink: "Australian Immigration & Sponsor FAQ (faq.immispecialist.com)"
+    footerFaqLink: "Australian Immigration & Sponsor FAQ (faq.immispecialist.com)",
+    empHubBadge: "FAIR WORK ACT 2009 · 48-QUESTION DUAL-PERSPECTIVE KNOWLEDGE HUB",
+    empHubTitle: "5. Australian Employment Law & FWC 48-Question Knowledge Hub (Employee & Employer Views)",
+    empHubDesc: "Search 48 primary-source Q&As covering Unfair Dismissal (s 394), General Protections (s 365), Forced Resignation (s 386), Redundancy (s 389 / Helensburgh Coal [2025] HCA 29), Criminal Wage Underpayment (s 327A), and Sponsored Visa Crossover.",
+    empHubCatAll: "All Categories (48 Q&As)",
+    empHubCatDismissal: "Dismissal, General Protections & FWC",
+    empHubCatWages: "Wages, Penalty Rates, Super & Leave",
+    empHubCatContract: "Contracts, Probation & ABN Sham Contracting",
+    empHubCatSafety: "Bullying, WHS & Lawful Directions",
+    empHubCatVisa: "Sponsored Visas & Fair Work Crossover"
   };
 
   function initDefaultDate() {
@@ -1868,6 +1898,91 @@
     return targetId;
   }
 
+  var cachedEmpKnowledgeHub = null;
+
+  function loadEmpKnowledgeHub() {
+    if (typeof fetch !== "function") return;
+    fetch("data/emp_knowledge_hub.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data) return;
+        cachedEmpKnowledgeHub = data;
+        renderEmpKnowledgeHub();
+      })
+      .catch(function () {});
+  }
+
+  function renderEmpKnowledgeHub() {
+    var bodyEl = document.getElementById("emp-hub-body");
+    if (!bodyEl || !cachedEmpKnowledgeHub || !Array.isArray(cachedEmpKnowledgeHub.items)) return;
+    var isEn = currentLang === "en";
+    var searchEl = document.getElementById("emp-hub-search");
+    var catEl = document.getElementById("emp-hub-cat");
+    if (searchEl) {
+      searchEl.setAttribute(
+        "placeholder",
+        isEn
+          ? "Search 48 Q&As (e.g. 21 days, F8A, Helensburgh, PIP, ABN, 482, Super)..."
+          : "검색어 입력 (예: 21일, F8A, Helensburgh, PIP, ABN, 482, Super)..."
+      );
+    }
+    var q = searchEl && searchEl.value ? searchEl.value.trim().toLowerCase() : "";
+    var cat = catEl && catEl.value ? catEl.value : "all";
+    var items = cachedEmpKnowledgeHub.items.filter(function (it) {
+      if (cat !== "all" && it.category !== cat) return false;
+      if (!q) return true;
+      var hay = [
+        it.slug,
+        it.question_ko,
+        it.question_en,
+        it.summary_ko,
+        it.summary_en,
+        (it.key_points_ko || []).join(" "),
+        (it.key_points_en || []).join(" ")
+      ].join(" ").toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+
+    if (!items.length) {
+      bodyEl.innerHTML = '<div style="padding:14px;background:var(--pk-bg);border:1px solid var(--pk-line);border-radius:8px;font-size:13.5px;color:var(--pk-muted);">' +
+        (isEn ? "No matching employment law Q&As found." : "검색 조건에 일치하는 고용법 실무 문답이 없습니다.") +
+        '</div>';
+      return;
+    }
+
+    var countBanner = '<div style="font-size:12.5px;font-weight:700;color:var(--pk-brand);margin-bottom:10px;">' +
+      (isEn
+        ? ("Showing " + items.length + " of " + cachedEmpKnowledgeHub.items.length + " verified Employment Law Q&As")
+        : ("전체 " + cachedEmpKnowledgeHub.items.length + "개 문항 중 " + items.length + "개 표시")) +
+      '</div>';
+
+    var cards = items.map(function (it) {
+      var qTxt = isEn ? (it.question_en || it.question_ko) : it.question_ko;
+      var sTxt = isEn ? (it.summary_en || it.summary_ko) : it.summary_ko;
+      var kps = isEn ? (it.key_points_en || []) : (it.key_points_ko || []);
+      var faqUrl = "https://faq.immispecialist.com/faq/" + encodeURIComponent(it.slug) + (isEn ? "?lang=en" : "?lang=ko");
+      var kpHtml = kps.slice(0, 3).map(function (kp) {
+        return '<li style="margin-bottom:4px;">' + kp + '</li>';
+      }).join("");
+      return (
+        '<details style="background:#FFFFFF;border:1px solid var(--pk-line);border-radius:10px;padding:12px 14px;margin-bottom:8px;">' +
+          '<summary style="cursor:pointer;font-weight:800;font-size:14px;color:var(--pk-ink);display:flex;justify-content:space-between;align-items:center;gap:10px;">' +
+            '<span><code style="font-size:11.5px;color:var(--pk-brand);margin-right:6px;">' + it.slug.toUpperCase() + '</code>' + qTxt + '</span>' +
+          '</summary>' +
+          '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--pk-line);font-size:13.2px;line-height:1.65;color:var(--pk-ink);">' +
+            '<p style="margin:0 0 8px;">' + sTxt + '</p>' +
+            (kpHtml ? '<ul style="margin:0 0 10px;padding-left:18px;color:var(--pk-muted);font-size:12.6px;">' + kpHtml + '</ul>' : '') +
+            '<a href="' + faqUrl + '" target="_blank" rel="noopener" style="font-size:12.5px;font-weight:800;color:var(--pk-brand);text-decoration:none;">' +
+              (isEn ? "Read Full Dual-Perspective Legal Guide on FAQ Portal ↗" : "공식 FAQ 포털에서 근로자·고용주 양방향 전문 보기 ↗") +
+            '</a>' +
+          '</div>' +
+        '</details>'
+      );
+    }).join("");
+
+    bodyEl.innerHTML = countBanner + cards;
+  }
+
   function loadEmpPollingStatus() {
     if (typeof fetch !== "function") return;
     fetch("data/polling_status.json", { cache: "no-store" })
@@ -1935,6 +2050,7 @@
       renderEmpFwcAuthorities();
       renderAbfCrossoverSummary();
       renderEmpPollerMatrix();
+      renderEmpKnowledgeHub();
       updateDiagnosticBrief();
     }
   }
@@ -2074,7 +2190,12 @@
       if (toolParam) {
         applyToolDeepLink(toolParam);
       }
+      var hubSearch = document.getElementById("emp-hub-search");
+      var hubCat = document.getElementById("emp-hub-cat");
+      if (hubSearch) hubSearch.addEventListener("input", renderEmpKnowledgeHub);
+      if (hubCat) hubCat.addEventListener("change", renderEmpKnowledgeHub);
       loadEmpPollingStatus();
+      loadEmpKnowledgeHub();
     });
   }
 
