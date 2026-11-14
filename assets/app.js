@@ -436,6 +436,50 @@
       return Math.round((t.getTime() - now.getTime()) / 86400000);
     }
 
+    function daysInMonth(year, monthZeroIndexed) {
+      return new Date(year, monthZeroIndexed + 1, 0, 12, 0, 0, 0).getDate();
+    }
+
+    function addAnniversaryYears(d, nYears) {
+      if (!d || isNaN(d.getTime())) return null;
+      var ty = d.getFullYear() + nYears;
+      var tm = d.getMonth();
+      var td = Math.min(d.getDate(), daysInMonth(ty, tm));
+      return new Date(ty, tm, td, 12, 0, 0, 0);
+    }
+
+    function computeServiceSpanFromDates(startIso, endIso) {
+      var start = parseIsoLocal(startIso);
+      var end = parseIsoLocal(endIso);
+      if (!start || !end) {
+        return { valid: false, reason: "missing_date" };
+      }
+      if (end.getTime() < start.getTime()) {
+        return { valid: false, reason: "end_before_start" };
+      }
+      var totalDays = Math.round((end.getTime() - start.getTime()) / 86400000);
+      var wholeYears = 0;
+      while (wholeYears < 100) {
+        var nextCandidate = addAnniversaryYears(start, wholeYears + 1);
+        if (!nextCandidate || nextCandidate.getTime() > end.getTime()) break;
+        wholeYears += 1;
+      }
+      var anniv = addAnniversaryYears(start, wholeYears);
+      var nextAnniv = addAnniversaryYears(start, wholeYears + 1);
+      var extraDays = Math.round((end.getTime() - anniv.getTime()) / 86400000);
+      var yearSpanDays = Math.max(1, Math.round((nextAnniv.getTime() - anniv.getTime()) / 86400000));
+      var exactYears = wholeYears + (extraDays / yearSpanDays);
+      return {
+        valid: true,
+        startIso: formatIsoLocal(start),
+        endIso: formatIsoLocal(end),
+        totalDays: totalDays,
+        wholeYears: wholeYears,
+        extraDays: extraDays,
+        exactYears: exactYears
+      };
+    }
+
     return {
       NATIONAL_HOLIDAYS: NATIONAL_HOLIDAYS,
       STATE_HOLIDAYS: STATE_HOLIDAYS,
@@ -444,6 +488,8 @@
       parseIsoLocal: parseIsoLocal,
       formatIsoLocal: formatIsoLocal,
       addCalendarDays: addCalendarDays,
+      addAnniversaryYears: addAnniversaryYears,
+      computeServiceSpanFromDates: computeServiceSpanFromDates,
       todayBrisbaneIso: todayBrisbaneIso,
       getHolidayName: getHolidayName,
       isBusinessDay: isBusinessDay,
@@ -554,8 +600,8 @@
       date: "2026-10-13",
       tag_ko: "디지털 플랫폼 부당 계정 비활성화 (s 536LU · s 536LD) · 21일 기한",
       tag_en: "Digital Platform Unfair Deactivation (s 536LU · s 536LD) & 21-Day Limit",
-      summary_ko: "Closing Loopholes 개정법으로 도입된 배달·플랫폼 종사자 부당 계정정지 구제 신청(s 536LU · 최소 6개월 정기 활동 요건 s 536LD)도 정지일로부터 21일 안에 접수해야 하며 기한 도과 시 각하된다는 점을 확인했습니다.",
-      summary_en: "Applied the Closing Loopholes unfair deactivation jurisdiction (s 536LU / s 536LD 6-month regular work rule) for digital platform workers, dismissing an application filed outside the strict 21-day limit (s 536LZ).",
+      summary_ko: "Closing Loopholes 개정법으로 도입된 배달·플랫폼 종사자 부당 계정정지 구제 신청(s 536LU · 최소 6개월 정기 활동 요건 s 536LD)도 정지일로부터 21일 안에 접수해야 하며 예외적 사정(s 536LU(3))이 소명되지 않으면 기한 도과로 각하된다는 점을 확인했습니다.",
+      summary_en: "Applied the Closing Loopholes unfair deactivation jurisdiction (s 536LU / s 536LD 6-month regular work rule) for digital platform workers, dismissing an out-of-time application absent exceptional circumstances under s 536LU(3).",
       url: "https://www.legislation.gov.au/C2009A00028/latest/text"
     },
     {
@@ -630,32 +676,54 @@
     optTypeForced: "강제사직 / PIP 압박으로 사직서 제출 또는 제출 직전 (s 386(1)(b))",
     optTypePlatform: "우버·도어대시 등 디지털 플랫폼 계정 일방 비활성화 (s 536LU · s 536LD 6개월 요건)",
     m1ResultHeading: "보수적 안전 접수 권고일 & 법정 최종 마감일 병기 판정",
-    m2Title: "2. 정리해고 적법성(s 389) · 해고수당 & 26주 보상금 계산기",
-    m2Desc: "직무 소멸·사전 협의·사내 재배치(s 389) 요건 중 하나라도 누락된 부적법 정리해고는 최대 <strong>26주분 급여 배상(s 392 · 상한 $95,050)</strong> 대상이 됩니다.",
-    m2FormHeading: "근속연수 · 급여 · 정리해고 3대 법정 요건 입력",
-    lblRedBizSize: "정리해고 계산 기준 사업장 규모 (s 121 소규모 사업장 15인 미만 면제 여부 · 독립 설정)",
+    m2Title: "2. 정리해고 적법성(s 389) · 해고예고(Full Pay) · 정리해고수당(Base Pay) & 26주 상한 계산기",
+    m2Desc: "해고예고 갈음 수당(<strong>Full Pay Rate · s 117(2)(b)/s 18</strong>)과 NES 정리해고수당(<strong>Base Pay Rate · s 119(2)/s 16</strong>)을 분리 산출하며 부적법 정리해고(s 389) 시 적용되는 <strong>부당해고 법정 배상 상한(26주 · $95,050 · 실제 보장액 아님)</strong>을 독립 비교합니다.",
+    m2FormHeading: "고용형태 · 연속 근속기간 · 기본급/예고기간 가산액 · 정리해고 요건 입력",
+    lblRedEmpType: "고용 형태 및 법정 제외 사유 (ss 117(4), 123)",
+    optRedEmpPerm: "정규직 풀타임 · 파트타임 (NES 해고예고 · 정리해고수당 대상)",
+    optRedEmpCasual: "캐주얼 근로자 (Casual · s 123(1)(c) NES 해고예고 · 정리해고수당 제외)",
+    optRedEmpFixed: "특정 기간·과업·계절 계약 만료 / 수습훈련생 (s 123(1)(a) 제외)",
+    optRedEmpMisconduct: "중대 비위 즉시 해고 (Serious Misconduct · s 123(1)(b) 예고 제외)",
+    lblRedBizSize: "사업장 규모 (s 121 소규모 사업장 15인 미만 면제 여부 · 독립 설정)",
     optRedBizStandard: "일반 사업장 (15인 이상 · s 119 NES 법정 정리해고수당 적용)",
-    optRedBizSmall: "소규모 사업장 (15인 미만 · s 121 NES 정리해고수당 면제 · 해고예고수당 별도)",
-    lblRedYears: "연속 근속연수 (Years of Continuous Service)",
-    optYr0: "1년 미만 (Under 1 year)",
-    optYr1: "1년 이상 ~ 2년 미만 (1 to <2 years)",
-    optYr2: "2년 이상 ~ 3년 미만 (2 to <3 years)",
-    optYr3: "3년 이상 ~ 4년 미만 (3 to <4 years)",
-    optYr4: "4년 이상 ~ 5년 미만 (4 to <5 years)",
-    optYr5: "5년 이상 ~ 6년 미만 (5 to <6 years)",
-    optYr6: "6년 이상 ~ 7년 미만 (6 to <7 years)",
-    optYr7: "7년 이상 ~ 8년 미만 (7 to <8 years)",
-    optYr8: "8년 이상 ~ 9년 미만 (8 to <9 years)",
-    optYr9: "9년 이상 ~ 10년 미만 (9 to <10 years)",
-    optYr10: "10년 이상 (10+ years · 장기근속 공제 반영)",
-    lblRedWeeklyPay: "주급 (Weekly Gross Base Pay, AUD $)",
-    lblRedAge45: "근로자 연령 (만 45세 이상 & 2년 이상 근속 시 해고예고 +1주 가산, s 117(3)(b))",
-    optAgeUnder45: "만 45세 미만",
-    optAgeOver45: "만 45세 이상 (+1주 Notice 가산)",
+    optRedBizSmall: "소규모 사업장 (15인 미만 · s 121 NES 정리해고수당 면제 · 해고예고수당 적용)",
+    lblRedServiceMode: "연속 근속기간 입력 방식 (s 117(3) Notice vs s 119(2) Redundancy 경계 구분)",
+    optRedModeYears: "연속 근속연수 선택 또는 소수점 직접 입력 (정각 1·2·3·5년 경계 지원)",
+    optRedModeDates: "입사일 ~ 해고통보/종료일 달력 계산 (윤년 반영 역년 Anniversary 기준)",
+    lblRedYears: "연속 근속연수 구간 / 정각 경계 선택",
+    optYrPrompt: "-- 연속 근속기간 선택 (또는 우측에 연수 입력) --",
+    optYr0: "1년 미만 (예: 0.5년 · Notice 1주 / Redundancy 0주)",
+    optYrExact1: "정확히 1년 정각 (1.00년 · s 117 Notice 1주 / s 119 Redundancy 4주)",
+    optYr1: "1년 초과 ~ 2년 미만 (예: 1.5년 · Notice 2주 / Redundancy 4주)",
+    optYrExact2: "정확히 2년 정각 (2.00년 · Notice 2주[45세 초과 시 +1주] / Redundancy 6주)",
+    optYr2: "2년 초과 ~ 3년 미만 (예: 2.5년 · Notice 2주 / Redundancy 6주)",
+    optYrExact3: "정확히 3년 정각 (3.00년 · s 117 Notice 2주 / s 119 Redundancy 7주)",
+    optYr3: "3년 초과 ~ 4년 미만 (예: 3.5년 · Notice 3주 / Redundancy 7주)",
+    optYr4: "4년 이상 ~ 5년 미만 (예: 4.5년 · Notice 3주 / Redundancy 8주)",
+    optYrExact5: "정확히 5년 정각 (5.00년 · s 117 Notice 3주 / s 119 Redundancy 10주)",
+    optYr5: "5년 초과 ~ 6년 미만 (예: 5.5년 · Notice 4주 / Redundancy 10주)",
+    optYr6: "6년 이상 ~ 7년 미만 (Notice 4주 / Redundancy 11주)",
+    optYr7: "7년 이상 ~ 8년 미만 (Notice 4주 / Redundancy 13주)",
+    optYr8: "8년 이상 ~ 9년 미만 (Notice 4주 / Redundancy 14주)",
+    optYr9: "9년 이상 ~ 10년 미만 (Notice 4주 / Redundancy 16주)",
+    optYr10: "10년 이상 (Notice 4주 / Redundancy 12주 · 장기근속 공제 반영)",
+    lblRedExactYears: "정확한 연속 근속연수 직접 입력 (Years · 소수점 지원)",
+    lblRedStartDate: "근무 시작일 (Start Date)",
+    lblRedEndDate: "해고예고 통지일 / 종료일 (Notice / End Date)",
+    hintRedDates: "달력 입사기념일(Calendar Anniversary) 기준으로 윤년(366일) 오차 없이 만 근속연수와 초과 일수를 계산합니다 (무급휴직·무단결근 제외 기간은 s 22에 따라 별도 공제 필요).",
+    lblRedWeeklyPay: "통상 주당 기본급 (Base Pay Rate, AUD $ · s 16 / s 119 정리해고 기준)",
+    hintRedWeeklyPay: "통상 근로시간 기본급만 입력 (수당·로딩·페널티·보너스 제외 · 이중 합산 방지)",
+    lblRedNoticeAdditions: "예고기간 주당 정기 수당·로딩·보너스 가산액 (Notice Additions, AUD $ · s 18)",
+    hintRedNoticeAdditions: "해고예고수당(s 117(2)(b) Full Pay = 기본급 + 가산액)에만 합산되며 정리해고수당에는 미포함",
+    lblRedUdRemun: "[선택] 부당해고 법정 상한(s 392 · 26주) 산정용 주당 보수 (미입력 시 Full Pay 자동 적용)",
+    lblRedAge45: "근로자 연령 구분 (만 45세 초과 & 2년 이상 근속 시 해고예고 +1주, s 117(3)(b))",
+    optAgeUnder45: "만 45세 이하 (만 45세 정각 포함 · 추가 Notice 없음)",
+    optAgeOver45: "만 45세 초과 (만 46세 이상 · 2년 이상 근속 시 +1주 가산)",
+    lblRedAgeYears: "[선택] 만 나이 직접 입력 (45 입력 시 이하 · 46 이상 입력 시 초과)",
     lblRedRedeploy: "s 389 진정한 정리해고(Genuine Redundancy) 절차 준수 여부",
     optRedFailed: "결함 있음: 사내·계열사 빈자리 재배치(Redeployment) 미제안 또는 사전 협의 누락",
     optRedOk: "완벽 준수: 직무 실제 소멸 + Award 서면 협의 + 재배치 불가 입증 완료",
-    m2ResultHeading: "NES 법정 수당 vs 부당해고 최대 배상금(26주) 시뮬레이션",
+    m2ResultHeading: "NES 해고예고(Full Pay) · 정리해고수당(Base Pay) & 부당해고 법정 상한(26주)",
     m3Title: "3. 사업주 노무 컴플라이언스 & 위장도급 · 임금체불 점검",
     m3Desc: "ABN 실질 근로자 판정(s 15AA), 고의 임금체불 형사처벌(s 327A), 퇴근 후 연락 거부권(s 333M) 리스크를 점검합니다.",
     m3FormHeading: "근로·도급 형태 및 급여 컴플라이언스 체크",
@@ -719,10 +787,10 @@
     svgEmpD0Sub: "통보·최종 근무일 (s 386)",
     svgEmpD1Title: "Day 1~14: 증거 확보·법리 선택",
     svgEmpD1Sub: "s 394(부당해고) vs s 365(일반보호) 선택",
-    svgEmpD21Title: "Day 21: FWC 법정 절대 마감일",
+    svgEmpD21Title: "Day 21: FWC 엄격 법정 마감일",
     svgEmpD21Sub: "주말·공휴일 시 익영업일 연장 (s 36(2))",
     svgEmpD22Title: "Day 22+: 원칙적 각하 구간",
-    svgEmpD22Sub: "'Exceptional Circumstances'만 예외",
+    svgEmpD22Sub: "s 394(3)/s 366(2) 예외적 사정 연장 심사",
     m5Title: "주요 공정근로위원회(FWC) 선례 기준",
     m5Desc: "공정근로법(Fair Work Act 2009)과 FWC 주요 판단 기준을 살펴본 뒤 위 진단 요약을 공식 문의 허브로 접수하실 수 있습니다.",
     specName: "박창민 대표변호사 (Chang Min Park)",
@@ -730,15 +798,15 @@
     specName2: "박기성 변호사 (Kevin Park)",
     specRole2: "Associate · Employment Law",
     specMeta: "법무법인 박앤코 (Park & Co Lawyers · Underwood QLD)<br/>이메일: <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:var(--pk-brand);font-weight:700;\">enquiry@parkcolawyers.com</a> · 상담 허브: <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--pk-brand);font-weight:700;\">parklawyers.com.au/links</a>",
-    pollerTitle: "1차 법령 데이터 출처 확인 · 공정근로법령 · FWC · 국경수비대(ABF) 실시간 폴링 검증 매트릭스",
-    pollerDesc: "연방 법령 원문(<code>legislation.gov.au</code>), 공정근로위원회 고소득 기준선·접수 수수료·심사 기준(<code>fwc.gov.au</code>) 및 국경수비대(ABF) 스폰서 제재 API를 정기 자동 폴링하여 SHA-256 해시와 최신 법정 수치를 검증합니다.",
+    pollerTitle: "1차 출처 스냅샷 무결성 확인 · 공정근로법령 · FWC · 국경수비대(ABF) SHA-256 폴링 매트릭스",
+    pollerDesc: "연방 법령 원문(<code>legislation.gov.au</code>), 공정근로위원회 고소득 기준선·접수 수수료·심사 안내(<code>fwc.gov.au</code>) 및 국경수비대(ABF) 스폰서 제재 API의 응답 가용성과 스냅샷 SHA-256 해시 무결성을 점검합니다 (해시 표시는 원문 스냅샷 동일성 확인용이며 개별 사건에 대한 법률 해석·자문 보증이 아닙니다).",
     thPollerSource: "1차 출처 및 검증 대상",
     thPollerCitation: "근거 조문 · 엔드포인트",
     thPollerFigures: "실시간 추출 핵심 수치",
     thPollerHash: "SHA-256 해시 · 용량",
     thPollerStatus: "폴링 검증 상태",
     footerFirmName: "법무법인 박앤코 (PNC Legal Pty Ltd t/a Park & Co Lawyers)",
-    footerNotice: "이 내비게이터는 호주 공정근로법(Fair Work Act 2009)과 이민법 원문을 바탕으로 일반 법률 정보를 안내하며 정식 수임 계약 전 개별 법률 자문(Legal Advice)을 대신하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 법정 신청기한(주말·공휴일 익영업일 연장 및 예외적 사정 연장 심사 대상)이므로 지체 없이 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>)에게 문의하시기 바랍니다.",
+    footerNotice: "이 내비게이터는 호주 공정근로법(Fair Work Act 2009)과 이민법 원문을 바탕으로 일반 법률 정보를 안내하며 정식 수임 계약 전 개별 법률 자문(Legal Advice)을 대신하지 않습니다. 해고 후 21일 기한(ss 394, 366, 536LU)은 엄격한 법정 신청기한(주말·공휴일 익영업일 연장 및 s 394(3)·s 366(2) 예외적 사정 연장 심사 대상)이므로 지체 없이 박창민 대표변호사(Acc. Spec. Immi) 및 박기성 변호사(Kevin Park · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/?lang=ko\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>)에게 문의하시기 바랍니다.",
     footerOfficialLabel: "공식 문의:",
     footerHubLink: "← 박앤코 법률·비자 통합 허브",
     ecoFamilyLink: "호주 가족법 · 연방순회·가족법원(FCFCOA) 판례",
@@ -746,7 +814,7 @@
     footerVisaGuideLink: "퇴사·해고 후 대체 비자 6단계 자동 진단",
     footerEmpFaqLink: "호주 고용법 공식 실무 FAQ (faq.immispecialist.com/employment)",
     footerFaqLink: "호주 이민·스폰서 실무 FAQ (faq.immispecialist.com)",
-    empHubBadge: "FAIR WORK ACT 2009 · 48-QUESTION DUAL-PERSPECTIVE KNOWLEDGE HUB",
+    empHubBadge: "FAIR WORK ACT 2009 · 근로자×고용주 양방향 48문 48답 지식 허브",
     empHubTitle: "5. 호주 고용법 · FWC 48문항 실무 백과 (근로자 · 고용주 양방향 통합)",
     empHubDesc: "부당해고(s 394)·일반보호(s 365)·강제사직(s 386)·정리해고(s 389 / Helensburgh Coal [2025] HCA 29)·임금체불 형사처벌(s 327A)·스폰서 비자 교차 쟁점 48개 실무 문답을 검색하고 공식 FAQ 전문으로 바로 연결할 수 있습니다.",
     empHubCatAll: "전체 카테고리 (48문항)",
@@ -770,7 +838,7 @@
     ecoSvcConsult: "Official Inquiry Hub",
     btnPrint: "Print",
     urgentBadge: "Strict 21-Day FWC Limit:",
-    urgentText: "Unfair Dismissal (s 394), General Protections (s 365) & Platform Deactivation (s 536LU) must be lodged within 21 calendar days (rolling over if ending on a weekend/state holiday per s 36(2)).",
+    urgentText: "Unfair Dismissal (s 394), General Protections (s 365) & Platform Deactivation (s 536LU) must be lodged within 21 calendar days (rolling over on weekends/state holidays per s 36(2); extensions strictly limited to exceptional circumstances under s 394(3)/s 366(2)).",
     heroEyebrow: "FAIR WORK ACT 2009 (CTH) · FAIR WORK COMMISSION · MIGRATION ACT CROSSOVER",
     heroTitle: "Australian Employment Law & Sponsor Visa Navigator",
     heroLead: "Calculate your 21-day FWC deadline (with State public holiday rollover), redundancy & 26-week compensation cap ($95,050), workplace compliance risks, and visa protections.",
@@ -817,32 +885,54 @@
     optTypeForced: "Forced Resignation / Constructive Dismissal / PIP Pressure (s 386(1)(b))",
     optTypePlatform: "Digital Platform (Uber/DoorDash) Account Deactivation (s 536LU · s 536LD 6m rule)",
     m1ResultHeading: "Side-by-Side Safe Filing Date & Statutory Final Deadline",
-    m2Title: "2. Redundancy (s 389), NES Pay & 26-Week Compensation Calculator",
-    m2Desc: "If a redundancy lacks genuine job abolition, Award consultation, or redeployment efforts (s 389), up to <strong>26 weeks' compensation (s 392 · $95,050 cap)</strong> applies.",
-    m2FormHeading: "Service Length, Weekly Pay & s 389 Compliance Check",
+    m2Title: "2. Redundancy (s 389), Notice (Full Pay) vs Redundancy (Base Pay) & 26-Week Cap Calculator",
+    m2Desc: "Separates Payment in Lieu of Notice (<strong>Full Pay Rate · s 117(2)(b)/s 18</strong>) from NES Redundancy Pay (<strong>Base Pay Rate · s 119(2)/s 16</strong>) and compares the independent <strong>26-week Unfair Dismissal statutory cap (s 392 · $95,050 ceiling, NOT a guaranteed payout)</strong>.",
+    m2FormHeading: "Employment Type, Service Length, Base vs Notice Pay & s 389 Check",
+    lblRedEmpType: "Employment Type & Statutory Exclusions (ss 117(4), 123)",
+    optRedEmpPerm: "Permanent Full-Time / Part-Time (NES Notice s 117 & Redundancy s 119 Eligible)",
+    optRedEmpCasual: "Casual Employee (Excluded from NES Notice & Redundancy per s 123(1)(c))",
+    optRedEmpFixed: "Specified Period / Task / Seasonal Expiry or Trainee (Excluded per s 123(1)(a))",
+    optRedEmpMisconduct: "Summary Dismissal for Serious Misconduct (No NES Notice per s 123(1)(b))",
     lblRedBizSize: "Employer Size for Redundancy Pay (s 121 Small Business <15 Employees Exemption · Independent Toggle)",
     optRedBizStandard: "Non-Small Business (15+ employees · s 119 NES Redundancy Pay applies)",
     optRedBizSmall: "Small Business Employer (<15 employees · s 121 NES Redundancy Pay exempt · Notice pay still applies)",
-    lblRedYears: "Years of Continuous Service",
-    optYr0: "Under 1 year of continuous service",
-    optYr1: "1 to <2 years of continuous service",
-    optYr2: "2 to <3 years of continuous service",
-    optYr3: "3 to <4 years of continuous service",
-    optYr4: "4 to <5 years of continuous service",
-    optYr5: "5 to <6 years of continuous service",
-    optYr6: "6 to <7 years of continuous service",
-    optYr7: "7 to <8 years of continuous service",
-    optYr8: "8 to <9 years of continuous service",
-    optYr9: "9 to <10 years of continuous service",
-    optYr10: "10+ years (long service leave offset applies)",
-    lblRedWeeklyPay: "Weekly Gross Base Pay (AUD $)",
-    lblRedAge45: "Employee Age (+1 week notice if aged 45+ with 2+ years service, s 117(3)(b))",
-    optAgeUnder45: "Under 45 years old",
-    optAgeOver45: "45 years or older (+1 week statutory notice)",
+    lblRedServiceMode: "Continuous Service Input Mode (Separating s 117(3) Notice vs s 119(2) Redundancy Boundaries)",
+    optRedModeYears: "Select Bracket or Enter Exact Continuous Service Years (Supports Exact 1, 2, 3, 5 Yr Boundaries)",
+    optRedModeDates: "Exact Start Date & Notice/End Date (Calendar Anniversary Leap-Year Math)",
+    lblRedYears: "Continuous Service Bracket / Exact Statutory Boundary",
+    optYrPrompt: "-- Select Service Bracket (or type exact years on the right) --",
+    optYr0: "Under 1 year (e.g. 0.5 yrs · Notice 1 wk / Redundancy 0 wks)",
+    optYrExact1: "Exact 1 year (1.00 yr · s 117 Notice 1 wk / s 119 Redundancy 4 wks)",
+    optYr1: "Over 1 to <2 years (e.g. 1.5 yrs · Notice 2 wks / Redundancy 4 wks)",
+    optYrExact2: "Exact 2 years (2.00 yrs · Notice 2 wks [+1 wk if over 45] / Redundancy 6 wks)",
+    optYr2: "Over 2 to <3 years (e.g. 2.5 yrs · Notice 2 wks / Redundancy 6 wks)",
+    optYrExact3: "Exact 3 years (3.00 yrs · s 117 Notice 2 wks / s 119 Redundancy 7 wks)",
+    optYr3: "Over 3 to <4 years (e.g. 3.5 yrs · Notice 3 wks / Redundancy 7 wks)",
+    optYr4: "4 to <5 years (e.g. 4.5 yrs · Notice 3 wks / Redundancy 8 wks)",
+    optYrExact5: "Exact 5 years (5.00 yrs · s 117 Notice 3 wks / s 119 Redundancy 10 wks)",
+    optYr5: "Over 5 to <6 years (e.g. 5.5 yrs · Notice 4 wks / Redundancy 10 wks)",
+    optYr6: "6 to <7 years (Notice 4 wks / Redundancy 11 wks)",
+    optYr7: "7 to <8 years (Notice 4 wks / Redundancy 13 wks)",
+    optYr8: "8 to <9 years (Notice 4 wks / Redundancy 14 wks)",
+    optYr9: "9 to <10 years (Notice 4 wks / Redundancy 16 wks)",
+    optYr10: "10+ years (Notice 4 wks / Redundancy 12 wks · LSL offset)",
+    lblRedExactYears: "Exact Continuous Service Years (Supports Decimals)",
+    lblRedStartDate: "Employment Start Date",
+    lblRedEndDate: "Notice Given / Termination Date",
+    hintRedDates: "Uses true calendar anniversaries (leap-year safe, never assuming 730 days = 2 years; deduct unpaid leave / unauthorised absence separately per s 22).",
+    lblRedWeeklyPay: "Ordinary Weekly Base Pay Rate (AUD $ · s 16 / s 119 Redundancy Basis)",
+    hintRedWeeklyPay: "Ordinary-hours base pay only (excluding allowances, loadings, penalties & bonuses to prevent double-counting)",
+    lblRedNoticeAdditions: "Regular Weekly Notice-Period Additions (Allowances, Loadings, Penalties & Bonuses · AUD $ · s 18)",
+    hintRedNoticeAdditions: "Included in Payment in Lieu of Notice (s 117(2)(b) Full Pay = Base + Additions); excluded from s 119 Redundancy",
+    lblRedUdRemun: "[Optional] Weekly Remuneration for s 392 26-Week Unfair Dismissal Cap (Defaults to Full Pay if blank)",
+    lblRedAge45: "Employee Age (+1 week notice ONLY if OVER 45 years old with at least 2 years service, s 117(3)(b))",
+    optAgeUnder45: "45 years old or under (incl. exact age 45 · +0 wk extra notice)",
+    optAgeOver45: "Over 45 years old (aged 46+ · +1 wk statutory notice if >=2 yrs service)",
+    lblRedAgeYears: "[Optional] Exact Age in Completed Years (45 = 45 or under; 46+ = over 45)",
     lblRedRedeploy: "s 389 Genuine Redundancy Procedural Compliance",
     optRedFailed: "Defective: Failed to offer available redeployment or skipped mandatory Award consultation",
     optRedOk: "Compliant: Role genuinely no longer required + written consultation + no redeployment available",
-    m2ResultHeading: "NES Entitlements vs Unfair Dismissal 26-Week Compensation Exposure",
+    m2ResultHeading: "NES Notice (Full Pay) · Redundancy (Base Pay) & Independent 26-Week Cap",
     m3Title: "3. Employer Compliance, Sham Contracting & Wage Audit",
     m3Desc: "Assess ABN sham contracting (s 15AA), criminal wage underpayment (s 327A), and Right to Disconnect (s 333M) compliance.",
     m3FormHeading: "Contractor, Wage & After-Hours Contact Compliance Check",
@@ -909,7 +999,7 @@
     svgEmpD21Title: "Day 21: Strict FWC Statutory Limit",
     svgEmpD21Sub: "s 36(2) Next Business Day Rollover",
     svgEmpD22Title: "Day 22+: Out of Time (Barred)",
-    svgEmpD22Sub: "Only 'Exceptional Circumstances' Allowed",
+    svgEmpD22Sub: "s 394(3)/s 366(2) Exceptional Circumstances",
     m5Title: "Key Fair Work Commission (FWC) Authorities",
     m5Desc: "Review key Fair Work Act 2009 and FWC legal principles and submit your diagnostic summary via the Official Inquiry Hub.",
     specName: "Chang Min Park (Legal Practitioner Director)",
@@ -917,15 +1007,15 @@
     specName2: "Kevin Park (Associate)",
     specRole2: "Associate · Employment Law",
     specMeta: "Park & Co Lawyers (Underwood QLD)<br/>Email: <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:var(--pk-brand);font-weight:700;\">enquiry@parkcolawyers.com</a> · Inquiry Hub: <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--pk-brand);font-weight:700;\">parklawyers.com.au/links</a>",
-    pollerTitle: "Primary-Source Verification · Fair Work Legislation, FWC Threshold & ABF Sanctions Matrix",
-    pollerDesc: "Automated polling of Commonwealth legislation (<code>legislation.gov.au</code>), Fair Work Commission thresholds, filing fees & guidance (<code>fwc.gov.au</code>), and the ABF Sanctioned Sponsors API with genuine SHA-256 content hashes.",
+    pollerTitle: "Primary-Source Snapshot Integrity · Fair Work Legislation, FWC Threshold & ABF SHA-256 Matrix",
+    pollerDesc: "Automated snapshot polling of Commonwealth legislation (<code>legislation.gov.au</code>), Fair Work Commission thresholds, filing fees & guidance (<code>fwc.gov.au</code>), and the ABF Sanctioned Sponsors API with SHA-256 content hashes (hash badges verify source snapshot integrity & HTTP availability, not automated legal advice for individual matters).",
     thPollerSource: "Primary Source & Target",
     thPollerCitation: "Statutory Provision / Endpoint",
     thPollerFigures: "Live Extracted Figures",
     thPollerHash: "SHA-256 Content Hash · Size",
     thPollerStatus: "Verification Status",
     footerFirmName: "PNC Legal Pty Ltd t/a Park & Co Lawyers",
-    footerNotice: "This navigator provides general legal information based on primary Australian legislation (Fair Work Act 2009 & Migration Act 1958) and does not constitute formal legal advice prior to a signed retainer. Because the 21-day FWC deadline (ss 394, 366, 536LU) is strictly enforced, contact Legal Practitioner Director Chang Min Park (Acc. Spec. Immi) & Kevin Park (Associate · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>) immediately.",
+    footerNotice: "This navigator provides general legal information based on primary Australian legislation (Fair Work Act 2009 & Migration Act 1958) and does not constitute formal legal advice prior to a signed retainer. Because the 21-day FWC deadline (ss 394, 366, 536LU; subject only to s 36(2) holiday rollover and strict s 394(3)/s 366(2) exceptional circumstances review) is strictly enforced, contact Legal Practitioner Director Chang Min Park (Acc. Spec. Immi) & Kevin Park (Associate · <a href=\"mailto:enquiry@parkcolawyers.com\" style=\"color:#FDE68A;font-weight:700;\">enquiry@parkcolawyers.com</a> · <a href=\"https://parklawyers.com.au/links/\" target=\"_blank\" rel=\"noopener\" style=\"color:#FDE68A;font-weight:700;\">parklawyers.com.au/links</a>) immediately.",
     footerOfficialLabel: "Official Inquiry:",
     footerHubLink: "← Park & Co Legal & Visa Hub",
     ecoFamilyLink: "Australian Family Law · FCFCOA Property Precedents",
@@ -1078,10 +1168,10 @@
 
     var statSummary = isEn
       ? "[STRICT] 21-Day FWC Statutory Final Deadline (" + st + ")"
-      : "[법정불변] FWC 해고 후 21일 최종 마감일 (" + st + ")";
+      : "[엄격기한] FWC 해고 후 21일 법정 최종 마감일 (" + st + ")";
     var statDesc = isEn
-      ? "Strict 21-calendar-day Fair Work Commission filing limit (ss 394, 366, 536LU; Acts Interpretation Act 1901 s 36(2) rollover checked for " + st + "). Filing Fee: " + dynamicThresholds.feeFmt + ". Contact: enquiry@parkcolawyers.com"
-      : "호주 공정근로법(ss 394, 366, 536LU) 및 Acts Interpretation Act 1901 s 36(2) " + st + " 공휴일 연장을 반영한 법정 최종 마감일입니다. 접수 수수료: " + dynamicThresholds.feeFmt + " | 문의: enquiry@parkcolawyers.com";
+      ? "Strict 21-calendar-day Fair Work Commission filing limit (ss 394, 366, 536LU; Acts Interpretation Act 1901 s 36(2) rollover checked for " + st + "; extensions strictly limited to exceptional circumstances under s 394(3)/s 366(2)). Filing Fee: " + dynamicThresholds.feeFmt + ". Contact: enquiry@parkcolawyers.com"
+      : "호주 공정근로법(ss 394, 366, 536LU · 예외적 사정 연장 심사 s 394(3)/s 366(2)) 및 Acts Interpretation Act 1901 s 36(2) " + st + " 공휴일 연장을 반영한 법정 최종 마감일입니다. 접수 수수료: " + dynamicThresholds.feeFmt + " | 문의: enquiry@parkcolawyers.com";
 
     var lines = [
       "BEGIN:VCALENDAR",
@@ -1278,106 +1368,323 @@
     return lastComputedDeadline;
   }
 
+  function roundAud2(n) {
+    return Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+  }
+
+  function formatAud(n) {
+    var r = roundAud2(n);
+    if (Math.abs(r - Math.round(r)) < 1e-9) {
+      return "$" + Math.round(r).toLocaleString("en-AU");
+    }
+    return "$" + r.toLocaleString("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function syncRedundancyModeVisibility() {
+    var modeEl = document.getElementById("red-service-mode");
+    var yearsWrap = document.getElementById("red-years-wrap");
+    var datesWrap = document.getElementById("red-dates-wrap");
+    var mode = (modeEl && modeEl.value ? modeEl.value : "years").toLowerCase();
+    if (yearsWrap && yearsWrap.style) {
+      yearsWrap.style.display = mode === "dates" ? "none" : "grid";
+    }
+    if (datesWrap && datesWrap.style) {
+      datesWrap.style.display = mode === "dates" ? "" : "none";
+    }
+    return mode;
+  }
+
   function calcRedundancySimulator() {
     var out = document.getElementById("emp-redundancy-output");
+    var serviceMode = syncRedundancyModeVisibility();
+
     if (!hasInteracted) {
       if (out) {
         out.innerHTML = renderNeutralPromptHtml(
-          "사업장 규모(s 121)·근속연수·주급·재배치 절차 준수 여부를 선택하면 법정 해고예고수당(s 117), 정리해고수당(s 119) 및 부당해고 상한(26주·" + dynamicThresholds.capFmt + ")을 비교 산출합니다.",
-          "Select employer size (s 121), years of service, weekly base pay, and s 389 compliance status to compare statutory NES payouts against the 26-week compensation cap (" + dynamicThresholds.capFmt + ")."
+          "사업장 규모(s 121)·연속 근속기간·통상 주당 기본급(s 16) 및 예고기간 가산액(s 18)을 입력하면 해고예고수당(s 117 Full Pay), 정리해고수당(s 119 Base Pay) 및 부당해고 법정 상한(26주·" + dynamicThresholds.capFmt + ")을 분리 산출합니다.",
+          "Enter employer size (s 121), continuous service, ordinary weekly base pay (s 16), and regular notice additions (s 18) to calculate NES Notice Pay (Full Pay), Redundancy Pay (Base Pay), and the independent 26-week cap (" + dynamicThresholds.capFmt + ")."
         );
       }
       return null;
     }
 
-    var yrsRaw = (document.getElementById("red-years") || {}).value;
-    var yrs = parseFloat(yrsRaw);
-    if (isNaN(yrs) || yrs < 0) yrs = 3.5;
+    var empTypeEl = document.getElementById("red-employment-type");
+    var empType = (empTypeEl && empTypeEl.value ? empTypeEl.value : "permanent").toLowerCase();
+
+    var yrs = NaN;
+    var dateSpan = null;
+    var serviceSummaryKo = "";
+    var serviceSummaryEn = "";
+
+    if (serviceMode === "dates") {
+      var startRaw = ((document.getElementById("red-start-date") || {}).value || "").toString().trim();
+      var endRaw = ((document.getElementById("red-end-date") || {}).value || "").toString().trim();
+      dateSpan = ParkCoDates.computeServiceSpanFromDates(startRaw, endRaw);
+      if (!dateSpan || !dateSpan.valid) {
+        if (out) {
+          out.innerHTML =
+            '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+              (currentLang === "ko"
+                ? (dateSpan && dateSpan.reason === "end_before_start"
+                    ? "해고예고 통지일/종료일은 근무 시작일과 같거나 그 이후 날짜여야 합니다."
+                    : "근무 시작일(Start Date)과 해고예고 통지일/종료일(End Date)을 모두 유효한 날짜(YYYY-MM-DD)로 입력해 주십시오.")
+                : (dateSpan && dateSpan.reason === "end_before_start"
+                    ? "Notice / Termination Date must be on or after the Employment Start Date."
+                    : "Please enter valid Employment Start Date and Notice / Termination Date (YYYY-MM-DD) values.")) +
+            '</div>';
+        }
+        return null;
+      }
+      yrs = dateSpan.exactYears;
+      serviceSummaryKo = dateSpan.startIso + " ~ " + dateSpan.endIso + " (만 " + dateSpan.wholeYears + "년 " + dateSpan.extraDays + "일 · 총 " + dateSpan.totalDays + "역일)";
+      serviceSummaryEn = dateSpan.startIso + " to " + dateSpan.endIso + " (" + dateSpan.wholeYears + " completed yr(s) + " + dateSpan.extraDays + " day(s) · " + dateSpan.totalDays + " calendar days)";
+    } else {
+      var exactEl = document.getElementById("red-service-years");
+      var exactRaw = exactEl && exactEl.value != null ? String(exactEl.value).trim() : "";
+      var presetRaw = String(((document.getElementById("red-years") || {}).value) || "").trim();
+      var yrsStr = exactRaw !== "" ? exactRaw : presetRaw;
+      if (yrsStr === "" || !/^\d+(?:\.\d+)?$/.test(yrsStr)) {
+        if (out) {
+          out.innerHTML =
+            '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+              (currentLang === "ko"
+                ? "연속 근속연수(Years of Continuous Service)를 선택하거나 0 이상의 숫자로 직접 입력해 주십시오 (임의 기본값 자동 적용 안 함)."
+                : "Please select or enter a valid non-negative Continuous Service length in years (no automatic fallback is applied).") +
+            '</div>';
+        }
+        return null;
+      }
+      yrs = parseFloat(yrsStr);
+      if (isNaN(yrs) || yrs < 0 || yrs > 60) {
+        if (out) {
+          out.innerHTML =
+            '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+              (currentLang === "ko"
+                ? "연속 근속연수는 0년 이상 60년 이하의 유효한 숫자로 입력해 주십시오."
+                : "Continuous service years must be a valid number between 0 and 60.") +
+            '</div>';
+        }
+        return null;
+      }
+      serviceSummaryKo = yrsStr + "년 연속 근속";
+      serviceSummaryEn = yrsStr + " year(s) continuous service";
+    }
 
     var weeklyRaw = ((document.getElementById("red-weekly-pay") || {}).value || "").toString().trim();
-    var weekly = weeklyRaw === "" ? NaN : parseFloat(weeklyRaw);
-    if (isNaN(weekly) || weekly <= 0) {
+    var baseWeekly = weeklyRaw === "" ? NaN : parseFloat(weeklyRaw);
+    if (!isFinite(baseWeekly) || baseWeekly <= 0) {
       if (out) {
         out.innerHTML =
           '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
             (currentLang === "ko"
-              ? "주급(Weekly Gross Base Pay)은 0보다 큰 유효한 금액(AUD $)을 입력해 주십시오."
-              : "Please enter a valid positive Weekly Gross Base Pay (AUD $ greater than 0).") +
+              ? "통상 주당 기본급(Weekly Base Pay Rate, s 16)은 0보다 큰 유효한 금액(AUD $)을 입력해 주십시오."
+              : "Please enter a valid positive Ordinary Weekly Base Pay Rate (AUD $ greater than 0 per s 16).") +
           '</div>';
       }
       return null;
     }
 
-    var age45 = (document.getElementById("red-age-45") || {}).value === "over45";
+    var addEl = document.getElementById("red-notice-additions");
+    var addRaw = addEl && addEl.value != null ? String(addEl.value).trim() : "0";
+    var noticeAddWeekly = addRaw === "" ? 0 : parseFloat(addRaw);
+    if (!isFinite(noticeAddWeekly) || noticeAddWeekly < 0) {
+      if (out) {
+        out.innerHTML =
+          '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+            (currentLang === "ko"
+              ? "예고기간 주당 정기 가산액(Notice Additions, s 18)은 0 이상의 금액(AUD $)으로 입력해 주십시오."
+              : "Regular Weekly Notice-Period Additions (s 18) must be 0 or a positive AUD amount.") +
+          '</div>';
+      }
+      return null;
+    }
+
+    var fullWeeklyPay = roundAud2(baseWeekly + noticeAddWeekly);
+
+    var udRemEl = document.getElementById("red-ud-weekly-remuneration");
+    var udRemRaw = udRemEl && udRemEl.value != null ? String(udRemEl.value).trim() : "";
+    var udWeeklyBasis = udRemRaw === "" ? fullWeeklyPay : parseFloat(udRemRaw);
+    if (!isFinite(udWeeklyBasis) || udWeeklyBasis <= 0) {
+      if (out) {
+        out.innerHTML =
+          '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+            (currentLang === "ko"
+              ? "부당해고 상한 계산용 주당 보수는 비워두거나 0보다 큰 금액으로 입력해 주십시오."
+              : "Optional Weekly Remuneration for the s 392 cap must be left blank or entered as a positive AUD amount.") +
+          '</div>';
+      }
+      return null;
+    }
+
+    var ageYearsEl = document.getElementById("red-age-years");
+    var ageYearsRaw = ageYearsEl && ageYearsEl.value != null ? String(ageYearsEl.value).trim() : "";
+    var age45SelEl = document.getElementById("red-age-45");
+    var isOver45 = false;
+    if (ageYearsRaw !== "") {
+      var parsedAge = parseFloat(ageYearsRaw);
+      if (!isFinite(parsedAge) || parsedAge < 14 || parsedAge > 110) {
+        if (out) {
+          out.innerHTML =
+            '<div style="background:var(--pk-danger-bg);border:1px solid var(--pk-danger);color:var(--pk-danger);padding:12px 14px;border-radius:8px;font-size:13.5px;font-weight:700;">' +
+              (currentLang === "ko"
+                ? "근로자 만 나이는 14세 이상 110세 이하의 숫자로 입력해 주십시오."
+                : "Employee age must be a valid number between 14 and 110.") +
+            '</div>';
+        }
+        return null;
+      }
+      /* s 117(3)(b): strictly OVER 45 years old (exact age 45 does NOT qualify) */
+      isOver45 = parsedAge > 45;
+      if (age45SelEl) {
+        age45SelEl.value = isOver45 ? "over45" : "under45";
+      }
+    } else {
+      isOver45 = ((age45SelEl || {}).value) === "over45";
+    }
+
     var redeploy = (document.getElementById("red-redeploy") || {}).value || "failed_redeploy";
     /* Decoupled Section 2 Small Business (<15 employees, s 121 FW Act) toggle */
     var redBizEl = document.getElementById("red-business-size");
     var redBizSize = (redBizEl && redBizEl.value) ? redBizEl.value : "standard";
     var isSmallRedundancy = redBizSize === "small";
 
-    var noticeWeeks = 1;
-    if (yrs >= 5) noticeWeeks = 4;
-    else if (yrs >= 3) noticeWeeks = 3;
-    else if (yrs >= 1) noticeWeeks = 2;
-    if (age45 && yrs >= 2) noticeWeeks += 1;
+    /* G-008: Strict separation of s 117(3) Notice (<= 1, <= 3, <= 5, > 5) vs s 119(2) Redundancy ([N, N+1)) */
+    var baseNoticeWeeks = 1;
+    var hasAtLeast2Years = false;
+    var redLookupYears = 0;
 
-    var redWeeks = 0;
-    if (!isSmallRedundancy) {
-      if (yrs >= 10) redWeeks = 12;
-      else if (yrs >= 9) redWeeks = 16;
-      else if (yrs >= 8) redWeeks = 14;
-      else if (yrs >= 7) redWeeks = 13;
-      else if (yrs >= 6) redWeeks = 11;
-      else if (yrs >= 5) redWeeks = 10;
-      else if (yrs >= 4) redWeeks = 8;
-      else if (yrs >= 3) redWeeks = 7;
-      else if (yrs >= 2) redWeeks = 6;
-      else if (yrs >= 1) redWeeks = 4;
+    if (serviceMode === "dates" && dateSpan) {
+      if (dateSpan.wholeYears < 1 || (dateSpan.wholeYears === 1 && dateSpan.extraDays === 0)) {
+        baseNoticeWeeks = 1;
+      } else if (dateSpan.wholeYears < 3 || (dateSpan.wholeYears === 3 && dateSpan.extraDays === 0)) {
+        baseNoticeWeeks = 2;
+      } else if (dateSpan.wholeYears < 5 || (dateSpan.wholeYears === 5 && dateSpan.extraDays === 0)) {
+        baseNoticeWeeks = 3;
+      } else {
+        baseNoticeWeeks = 4;
+      }
+      hasAtLeast2Years = dateSpan.wholeYears >= 2;
+      redLookupYears = dateSpan.wholeYears;
+    } else {
+      if (yrs <= 1) baseNoticeWeeks = 1;
+      else if (yrs <= 3) baseNoticeWeeks = 2;
+      else if (yrs <= 5) baseNoticeWeeks = 3;
+      else baseNoticeWeeks = 4;
+      hasAtLeast2Years = yrs >= 2;
+      redLookupYears = yrs;
     }
 
-    var noticePay = Math.round(noticeWeeks * weekly);
-    var redPay = Math.round(redWeeks * weekly);
-    var maxUdComp = Math.min(dynamicThresholds.capAud, Math.round(26 * weekly));
+    var ageBonusWeeks = (isOver45 && hasAtLeast2Years) ? 1 : 0;
+    var rawNoticeWeeks = baseNoticeWeeks + ageBonusWeeks;
+
+    var rawRedWeeks = 0;
+    if (redLookupYears >= 10) rawRedWeeks = 12;
+    else if (redLookupYears >= 9) rawRedWeeks = 16;
+    else if (redLookupYears >= 8) rawRedWeeks = 14;
+    else if (redLookupYears >= 7) rawRedWeeks = 13;
+    else if (redLookupYears >= 6) rawRedWeeks = 11;
+    else if (redLookupYears >= 5) rawRedWeeks = 10;
+    else if (redLookupYears >= 4) rawRedWeeks = 8;
+    else if (redLookupYears >= 3) rawRedWeeks = 7;
+    else if (redLookupYears >= 2) rawRedWeeks = 6;
+    else if (redLookupYears >= 1) rawRedWeeks = 4;
+
+    var s123Excluded = (empType === "casual" || empType === "fixed_term" || empType === "serious_misconduct");
+    var noticeWeeks = s123Excluded ? 0 : rawNoticeWeeks;
+    var redWeeks = (s123Excluded || isSmallRedundancy) ? 0 : rawRedWeeks;
+
+    /* G-005: Notice Pay uses Full Pay Rate (s 117(2)(b) / s 18); Redundancy Pay uses Base Pay Rate (s 119(2) / s 16) */
+    var noticePay = roundAud2(noticeWeeks * fullWeeklyPay);
+    var redPay = roundAud2(redWeeks * baseWeekly);
+    var maxUdComp = Math.min(dynamicThresholds.capAud, roundAud2(26 * udWeeklyBasis));
 
     if (out) {
-      var smallBizNoteHtml = isSmallRedundancy
+      var s123BannerHtml = "";
+      if (s123Excluded) {
+        var exclReasonKo = empType === "casual"
+          ? "캐주얼 근로자(<code>s 123(1)(c)</code>)는 법정 NES 해고예고수당(s 117) 및 정리해고수당(s 119) 적용 대상에서 제외(0주)됩니다 (단 정기·체계적 캐주얼로서 계속 고용 기대가 인정되면 s 384(2)(a)에 따라 부당해고 구제 신청은 가능)."
+          : empType === "fixed_term"
+          ? "특정 기간·과업·계절 계약 만료 또는 수습훈련 계약(<code>s 123(1)(a)</code>)은 법정 NES 해고예고 및 정리해고수당 제외 대상(0주)입니다 (단 반복 갱신 제한 위반 시 s 333E 확인 필요)."
+          : "중대 비위(Serious Misconduct · <code>s 123(1)(b)</code> / <code>reg 1.07</code>) 즉시 해고는 법정 NES 해고예고수당이 제외(0주)됩니다. 다만 비위 사실 입증책임은 고용주에게 있으므로 부당해고(Form F2) 또는 미지급 예고수당 다툼이 가능합니다.";
+        var exclReasonEn = empType === "casual"
+          ? "Casual employees (<code>s 123(1)(c)</code>) are excluded from statutory NES notice (s 117) and redundancy pay (s 119) ($0), though regular & systematic casuals may still qualify for unfair dismissal protection under s 384(2)(a)."
+          : empType === "fixed_term"
+          ? "Specified period/task/seasonal expiry and qualifying traineeships (<code>s 123(1)(a)</code>) are excluded from NES notice and redundancy pay ($0), subject to fixed-term contract limits under s 333E."
+          : "Summary dismissal for proven Serious Misconduct (<code>s 123(1)(b)</code> / <code>reg 1.07</code>) excludes statutory NES notice ($0), though employers carry a high evidentiary threshold if contested at the FWC.";
+        s123BannerHtml =
+          '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);">' +
+            '<strong>ℹ️ s 123 법정 제외 사유 적용:</strong> ' + (currentLang === "ko" ? exclReasonKo : exclReasonEn) +
+          '</div>';
+      }
+
+      var smallBizNoteHtml = (isSmallRedundancy && !s123Excluded)
         ? (currentLang === "ko"
-            ? '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ s 121 소규모 사업장(15인 미만) NES 정리해고수당 면제 적용:</strong> 해고 시점 총 근로자 수(계열사 합산 s 23)가 15인 미만인 사업장은 법정 NES 정리해고수당(s 119) 지급 의무가 면제(0주)됩니다(단 특정 Modern Award·계약상 별도 규정 확인 필요). 반면 <strong>s 117 법정 해고예고수당(' + noticeWeeks + '주)은 동일하게 지급</strong>해야 합니다.</div>'
-            : '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ Small Business (&lt;15 Employees) s 121 NES Redundancy Exemption Active:</strong> Employers with fewer than 15 employees (incl. associated entities per s 23) are exempt from statutory s 119 NES redundancy pay ($0 unless an industry Award/contract provides otherwise), while <strong>s 117 NES Notice Pay (' + noticeWeeks + ' wks) still applies</strong>.</div>')
+            ? '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ s 121 소규모 사업장(15인 미만) NES 정리해고수당 면제 적용:</strong> 해고 시점 총 근로자 수(계열사 합산 s 23)가 15인 미만인 사업장은 법정 NES 정리해고수당(s 119)이 면제(0주)됩니다(단 특정 Modern Award·기업협약 별도 규정 확인 필수). 반면 <strong>s 117 법정 해고예고수당(' + noticeWeeks + '주 · Full Pay 기준)은 동일하게 지급</strong>해야 합니다.</div>'
+            : '<div style="background:var(--pk-warn-bg);border-left:4px solid var(--pk-accent);padding:10px 12px;border-radius:6px;margin-bottom:10px;font-size:12.5px;color:var(--pk-ink);"><strong>ℹ️ Small Business (&lt;15 Employees) s 121 NES Redundancy Exemption Active:</strong> Employers with fewer than 15 employees (incl. associated entities per s 23) are exempt from statutory s 119 NES redundancy pay ($0 unless an industry Award/EA provides otherwise), while <strong>s 117 NES Notice Pay (' + noticeWeeks + ' wks at Full Pay Rate) still applies</strong>.</div>')
         : "";
 
       var defectBanner = redeploy === "failed_redeploy"
         ? (currentLang === "ko"
-            ? '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ s 389 부적법 정리해고(Non-Genuine Redundancy) 위험:</strong> ' + (isSmallRedundancy ? '소규모 사업장(12개월 이상 근속자 대상)이라도 ' : '') + '사내·계열사 재배치(Redeployment) 검토나 Award 사전 협의를 누락하면 정리해고 면책이 배제되어 <code>[2026] FWC 3112 Yorston</code> 사건과 같이 <strong>최대 26주분 부당해고 배상금($' + maxUdComp.toLocaleString() + ' · 상한 ' + dynamicThresholds.capFmt + ')</strong> 청구 대상이 될 수 있습니다.</div>'
-            : '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ Non-Genuine Redundancy Defect (s 389):</strong> ' + (isSmallRedundancy ? 'Even for a small business (where 12m+ service is met), failure ' : 'Failure ') + 'to consult or offer reasonable redeployment strips the redundancy immunity, exposing the employer to the <strong>26-week Unfair Dismissal cap ($' + maxUdComp.toLocaleString() + ' · ' + dynamicThresholds.capFmt + ' max)</strong> per <code>[2026] FWC 3112 Yorston</code>.</div>')
+            ? '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ s 389 부적법 정리해고(Non-Genuine Redundancy) 위험:</strong> ' + (isSmallRedundancy ? '소규모 사업장(12개월 이상 근속자 대상)이라도 ' : '') + '사내·계열사 재배치(Redeployment) 검토나 Award 사전 협의를 누락하면 정리해고 면책이 배제되어 <code>[2026] FWC 3112 Yorston</code> 사건과 같이 부당해고 배상 심리로 전환됩니다 (법정 상한 <strong>' + formatAud(maxUdComp) + ' · 최대 26주 / ' + dynamicThresholds.capFmt + ' 캡</strong> · 실제 인용액은 재취업 노력 및 감액 요소에 따라 FWC가 개별 산정).</div>'
+            : '<div style="background:var(--pk-danger-bg);border-left:4px solid var(--pk-danger);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-danger);"><strong>⚠️ Non-Genuine Redundancy Defect (s 389):</strong> ' + (isSmallRedundancy ? 'Even for a small business (where 12m+ service is met), failure ' : 'Failure ') + 'to consult or offer reasonable redeployment strips the s 389 immunity, exposing the dismissal to FWC compensation assessment up to the <strong>statutory ceiling of ' + formatAud(maxUdComp) + ' (max 26 wks / ' + dynamicThresholds.capFmt + ' cap · NOT an automatic or guaranteed award)</strong> per <code>[2026] FWC 3112 Yorston</code>.</div>')
         : (currentLang === "ko"
-            ? '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ s 389 적법 정리해고 요건 충족:</strong> 직무 소멸·사전 서면 협의·재배치 불가 기록이 입증된 경우 부당해고 구제 신청 대상에서 제외되며 ' + (isSmallRedundancy ? '소규모 사업장 면제(s 121)에 따라 법정 해고예고수당(s 117)을 정산합니다.' : '법정 해고예고 및 정리해고수당만 정산합니다.') + '</div>'
-            : '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ Genuine Redundancy (s 389) Satisfied:</strong> Where operational change, Award consultation, and non-redeployment are documented, unfair dismissal is barred and ' + (isSmallRedundancy ? 'statutory s 117 notice pay applies (s 121 small-business redundancy exemption).' : 'statutory NES notice and redundancy entitlements apply.') + '</div>');
+            ? '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ s 389 적법 정리해고 요건 충족:</strong> 직무 소멸·사전 서면 협의·재배치 불가 기록이 입증된 경우 부당해고 구제 신청 대상에서 제외되며 ' + (isSmallRedundancy ? '소규모 사업장 면제(s 121)에 따라 법정 해고예고수당(s 117 Full Pay)을 정산합니다.' : '법정 해고예고수당(Full Pay) 및 정리해고수당(Base Pay)을 각각 분리 정산합니다.') + '</div>'
+            : '<div style="background:var(--pk-ok-bg);border-left:4px solid var(--pk-ok);padding:12px;border-radius:6px;margin-bottom:12px;font-size:13px;color:var(--pk-ok);"><strong>✅ Genuine Redundancy (s 389) Satisfied:</strong> Where operational change, Award consultation, and non-redeployment are documented, unfair dismissal is barred and ' + (isSmallRedundancy ? 'statutory s 117 notice pay (Full Pay) applies (s 121 small-business redundancy exemption).' : 'statutory NES notice (Full Pay) and redundancy (Base Pay) entitlements apply.') + '</div>');
 
-      out.innerHTML = smallBizNoteHtml + defectBanner +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">' +
-          '<div style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
-            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? "법정 해고예고수당 (s 117)" : "NES Notice Pay (s 117)") + '</div>' +
-            '<div style="font-size:18px;font-weight:800;color:var(--pk-ink);">' + noticeWeeks + ' wks ($' + noticePay.toLocaleString() + ')</div>' +
-          '</div>' +
-          '<div style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
-            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? (isSmallRedundancy ? "법정 정리해고수당 (s 121 면제)" : "법정 정리해고수당 (s 119)") : (isSmallRedundancy ? "NES Redundancy (s 121 Exempt)" : "NES Redundancy Pay (s 119)")) + '</div>' +
-            '<div style="font-size:18px;font-weight:800;color:var(--pk-brand);">' + redWeeks + ' wks ($' + redPay.toLocaleString() + ')</div>' +
-          '</div>' +
-          '<div style="background:var(--pk-warn-bg);border:1px solid var(--pk-accent);padding:12px;border-radius:8px;">' +
-            '<div style="font-size:11.5px;color:var(--pk-warn);">' + (currentLang === "ko" ? "부당해고 최대 배상금 (s 392 · 상한 " + dynamicThresholds.capFmt + ")" : "Max Unfair Dismissal Cap (s 392 · " + dynamicThresholds.capFmt + " cap)") + '</div>' +
-            '<div style="font-size:18px;font-weight:800;color:var(--pk-danger);">26 wks ($' + maxUdComp.toLocaleString() + ')</div>' +
-          '</div>' +
+      var boundaryStrip =
+        '<div style="font-size:12px;color:var(--pk-ink-2);background:var(--pk-surface-2);border:1px solid var(--pk-line);border-radius:6px;padding:8px 10px;margin-bottom:10px;">' +
+          (currentLang === "ko"
+            ? ('<strong>적용 산식 기준:</strong> ' + serviceSummaryKo + ' · 연령 ' + (isOver45 ? '만 45세 초과(+1주 요건: 2년 이상 근속 충족 시만)' : '만 45세 이하(만 45세 정각 포함 · +0주)') + ' → <code>s 117(3)</code> 기본예고 ' + baseNoticeWeeks + '주 + 연령가산 ' + ageBonusWeeks + '주 / <code>s 119(2)</code> 정리해고 구간 ' + rawRedWeeks + '주')
+            : ('<strong>Applied Statutory Formula:</strong> ' + serviceSummaryEn + ' · Age ' + (isOver45 ? 'Over 45 (+1 wk only if >=2 yrs service)' : '45 or under (incl. exact age 45 · +0 wk)') + ' → <code>s 117(3)</code> base notice ' + baseNoticeWeeks + 'w + age bonus ' + ageBonusWeeks + 'w / <code>s 119(2)</code> redundancy scale ' + rawRedWeeks + 'w')) +
         '</div>';
+
+      var footnoteHtml =
+        '<div style="margin-top:10px;font-size:11.8px;line-height:1.55;color:var(--pk-muted);">' +
+          (currentLang === "ko"
+            ? "• <strong>산정 기준 분리 (이중 합산 방지):</strong> 해고예고 갈음 수당(<code>s 117(2)(b)</code>)은 통상 기본급(" + formatAud(baseWeekly) + ")에 예고기간 중 정기 지급될 수당·로딩·페널티·보너스(" + formatAud(noticeAddWeekly) + ")를 더한 <strong>Full Pay Rate(" + formatAud(fullWeeklyPay) + "/주, s 18)</strong>로 산정하며 정리해고수당(<code>s 119(2)</code>)은 <strong>통상 기본급(" + formatAud(baseWeekly) + "/주, s 16)</strong>만 적용합니다.<br/>• <strong>법령·협약 우선 확인:</strong> 위 금액은 공정근로법(NES) 최소 기준이며 적용 Modern Award, 기업협약(EA) 또는 근로계약서에 더 유리한 예고기간·퇴직수당 규정이 있으면 해당 상위 기준이 우선 적용됩니다. 부당해고 26주 상한(<code>s 392(5)</code>)은 법정 최고 한도일 뿐 보장 배상액이 아닙니다."
+            : "• <strong>Pay Basis Separation (No Double-Counting):</strong> Payment in lieu of notice (<code>s 117(2)(b)</code>) uses your <strong>Full Pay Rate (" + formatAud(fullWeeklyPay) + "/wk = Base " + formatAud(baseWeekly) + " + Notice Additions " + formatAud(noticeAddWeekly) + ", s 18)</strong>, whereas NES Redundancy Pay (<code>s 119(2)</code>) uses your <strong>Ordinary Base Pay Rate (" + formatAud(baseWeekly) + "/wk, s 16)</strong> only.<br/>• <strong>Award/EA Overrides & Statutory Cap Caveat:</strong> Figures show minimum NES baselines; Modern Awards, Enterprise Agreements, or contracts may provide higher notice/severance. The <code>s 392(5)</code> 26-week / " + dynamicThresholds.capFmt + " figure is a statutory maximum ceiling, NOT a guaranteed payout.") +
+        '</div>';
+
+      out.innerHTML = boundaryStrip + s123BannerHtml + smallBizNoteHtml + defectBanner +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;">' +
+          '<div id="red-card-notice" style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
+            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? "법정 해고예고수당 (s 117 · Full Pay)" : "NES Notice Pay (s 117 · Full Pay)") + '</div>' +
+            '<div style="font-size:18px;font-weight:800;color:var(--pk-ink);">' + noticeWeeks + ' wks (' + formatAud(noticePay) + ')</div>' +
+            '<div style="font-size:11px;color:var(--pk-muted);margin-top:3px;">' + formatAud(fullWeeklyPay) + '/wk (' + formatAud(baseWeekly) + ' + ' + formatAud(noticeAddWeekly) + ')</div>' +
+          '</div>' +
+          '<div id="red-card-redundancy" style="background:var(--pk-bg);border:1px solid var(--pk-line);padding:12px;border-radius:8px;">' +
+            '<div style="font-size:11.5px;color:var(--pk-muted);">' + (currentLang === "ko" ? (isSmallRedundancy ? "법정 정리해고수당 (s 121 면제)" : "법정 정리해고수당 (s 119 · Base Pay)") : (isSmallRedundancy ? "NES Redundancy (s 121 Exempt)" : "NES Redundancy Pay (s 119 · Base Pay)")) + '</div>' +
+            '<div style="font-size:18px;font-weight:800;color:var(--pk-brand);">' + redWeeks + ' wks (' + formatAud(redPay) + ')</div>' +
+            '<div style="font-size:11px;color:var(--pk-muted);margin-top:3px;">' + formatAud(baseWeekly) + '/wk ' + (currentLang === "ko" ? "기본급 기준 (s 16)" : "base rate only (s 16)") + '</div>' +
+          '</div>' +
+          '<div id="red-card-udcap" style="background:var(--pk-warn-bg);border:1px solid var(--pk-accent);padding:12px;border-radius:8px;">' +
+            '<div style="font-size:11.5px;color:var(--pk-warn);">' + (currentLang === "ko" ? "부당해고 법정 최고한도 (s 392 · 보장액 아님)" : "Statutory Unfair Dismissal Ceiling (s 392 Cap)") + '</div>' +
+            '<div style="font-size:18px;font-weight:800;color:var(--pk-danger);">Max 26 wks (' + formatAud(maxUdComp) + ')</div>' +
+            '<div style="font-size:11px;color:var(--pk-warn);margin-top:3px;">' + (currentLang === "ko" ? "법정 상한선 (" + dynamicThresholds.capFmt + " 캡 · 개별 산정)" : "Statutory cap (" + dynamicThresholds.capFmt + " max · not guaranteed)") + '</div>' +
+          '</div>' +
+        '</div>' +
+        footnoteHtml;
     }
     return {
+      empType: empType,
+      serviceMode: serviceMode,
+      serviceYears: yrs,
+      dateSpan: dateSpan,
+      isOver45: isOver45,
+      baseNoticeWeeks: baseNoticeWeeks,
+      ageBonusWeeks: ageBonusWeeks,
       noticeWeeks: noticeWeeks,
+      baseWeekly: baseWeekly,
+      noticeAddWeekly: noticeAddWeekly,
+      fullWeeklyPay: fullWeeklyPay,
       noticePay: noticePay,
       redWeeks: redWeeks,
       redPay: redPay,
+      udWeeklyBasis: udWeeklyBasis,
       maxUdComp: maxUdComp,
       redBizSize: redBizSize,
-      smallBizExempt: isSmallRedundancy
+      smallBizExempt: isSmallRedundancy,
+      s123Excluded: s123Excluded
     };
   }
 
@@ -1579,11 +1886,11 @@
     var dTypeLabel = (DISMISSAL_LABELS[currentLang] && DISMISSAL_LABELS[currentLang][d1.dType]) || d1.dType;
 
     var line2Ko = d2
-      ? "• 2. 법정 해고예고수당: " + d2.noticeWeeks + "주($" + d2.noticePay.toLocaleString() + ") / 정리해고수당: " + d2.redWeeks + "주($" + d2.redPay.toLocaleString() + ") / 부당해고 최대 배상한도(s 392): $" + d2.maxUdComp.toLocaleString()
-      : "• 2. 급여·해고수당: 유효한 주급 입력 필요";
+      ? "• 2. 법정 해고예고수당(Full Pay): " + d2.noticeWeeks + "주(" + formatAud(d2.noticePay) + ") / 정리해고수당(Base Pay): " + d2.redWeeks + "주(" + formatAud(d2.redPay) + ") / 부당해고 법정 배상상한(s 392 · 보장액 아님): " + formatAud(d2.maxUdComp)
+      : "• 2. 급여·해고수당: 연속 근속기간 및 통상 주당 기본급 입력 필요";
     var line2En = d2
-      ? "• 2. NES Notice: " + d2.noticeWeeks + " wks ($" + d2.noticePay.toLocaleString() + ") / NES Redundancy: " + d2.redWeeks + " wks ($" + d2.redPay.toLocaleString() + ") / s 392 26-Wk Cap: $" + d2.maxUdComp.toLocaleString()
-      : "• 2. NES Entitlements: Valid weekly base pay required";
+      ? "• 2. NES Notice (Full Pay): " + d2.noticeWeeks + " wks (" + formatAud(d2.noticePay) + ") / NES Redundancy (Base Pay): " + d2.redWeeks + " wks (" + formatAud(d2.redPay) + ") / s 392 Statutory Cap (not guaranteed): " + formatAud(d2.maxUdComp)
+      : "• 2. NES Entitlements: Valid continuous service and ordinary weekly base pay required";
 
     var line3Ko = !d4
       ? "• 3. 비자 교차 점검: 경과 일수 확인 필요"
@@ -1912,9 +2219,21 @@
       .catch(function () {});
   }
 
+  var HUB_CAT_MAP = {
+    "emp-dismissal-gp": ["emp-dismissal-gp", "emp-dismissal-21days"],
+    "emp-wages-leave": ["emp-wages-leave", "emp-underpayment-super"],
+    "emp-contracts-contractor": ["emp-contracts-contractor", "emp-contracts-restraints"],
+    "emp-bullying-safety": ["emp-bullying-safety", "emp-bullying-workcover"],
+    "emp-sponsor-visa-work": ["emp-sponsor-visa-work", "emp-visa-sponsorship", "emp-employer-fees"]
+  };
+
   function renderEmpKnowledgeHub() {
     var bodyEl = document.getElementById("emp-hub-body");
-    if (!bodyEl || !cachedEmpKnowledgeHub || !Array.isArray(cachedEmpKnowledgeHub.items)) return;
+    if (!bodyEl || !cachedEmpKnowledgeHub) return;
+    var rawList = Array.isArray(cachedEmpKnowledgeHub.faq_items)
+      ? cachedEmpKnowledgeHub.faq_items
+      : (Array.isArray(cachedEmpKnowledgeHub.items) ? cachedEmpKnowledgeHub.items : null);
+    if (!rawList) return;
     var isEn = currentLang === "en";
     var searchEl = document.getElementById("emp-hub-search");
     var catEl = document.getElementById("emp-hub-cat");
@@ -1928,13 +2247,15 @@
     }
     var q = searchEl && searchEl.value ? searchEl.value.trim().toLowerCase() : "";
     var cat = catEl && catEl.value ? catEl.value : "all";
-    var items = cachedEmpKnowledgeHub.items.filter(function (it) {
-      if (cat !== "all" && it.category !== cat) return false;
+    var allowedCats = HUB_CAT_MAP[cat] || [cat];
+    var items = rawList.filter(function (it) {
+      var itemCat = it.category_slug || it.category || "";
+      if (cat !== "all" && allowedCats.indexOf(itemCat) === -1) return false;
       if (!q) return true;
       var hay = [
         it.slug,
-        it.question_ko,
-        it.question_en,
+        it.title_ko || it.question_ko,
+        it.title_en || it.question_en,
         it.summary_ko,
         it.summary_en,
         (it.key_points_ko || []).join(" "),
@@ -1952,15 +2273,17 @@
 
     var countBanner = '<div style="font-size:12.5px;font-weight:700;color:var(--pk-brand);margin-bottom:10px;">' +
       (isEn
-        ? ("Showing " + items.length + " of " + cachedEmpKnowledgeHub.items.length + " verified Employment Law Q&As")
-        : ("전체 " + cachedEmpKnowledgeHub.items.length + "개 문항 중 " + items.length + "개 표시")) +
+        ? ("Showing " + items.length + " of " + rawList.length + " Employment Law Q&As")
+        : ("전체 " + rawList.length + "개 문항 중 " + items.length + "개 표시")) +
       '</div>';
 
     var cards = items.map(function (it) {
-      var qTxt = isEn ? (it.question_en || it.question_ko) : it.question_ko;
+      var qTxt = isEn ? (it.title_en || it.question_en || it.title_ko || it.question_ko) : (it.title_ko || it.question_ko);
       var sTxt = isEn ? (it.summary_en || it.summary_ko) : it.summary_ko;
       var kps = isEn ? (it.key_points_en || []) : (it.key_points_ko || []);
-      var faqUrl = "https://faq.immispecialist.com/faq/" + encodeURIComponent(it.slug) + (isEn ? "?lang=en" : "?lang=ko");
+      var faqUrl = isEn
+        ? (it.faq_url_en || ("https://faq.immispecialist.com/employment/q/" + encodeURIComponent(it.slug) + "?lang=en"))
+        : (it.faq_url_ko || ("https://faq.immispecialist.com/employment/q/" + encodeURIComponent(it.slug) + "?lang=ko"));
       var kpHtml = kps.slice(0, 3).map(function (kp) {
         return '<li style="margin-bottom:4px;">' + kp + '</li>';
       }).join("");
@@ -2067,8 +2390,24 @@
     if (stSel) stSel.value = "QLD";
     var mInput = document.getElementById("emp-service-months");
     if (mInput) mInput.value = "18";
+    var empTypeEl = document.getElementById("red-employment-type");
+    if (empTypeEl) empTypeEl.value = "permanent";
+    var modeEl = document.getElementById("red-service-mode");
+    if (modeEl) modeEl.value = "years";
+    var ySel = document.getElementById("red-years");
+    if (ySel) ySel.value = "3.5";
+    var yExact = document.getElementById("red-service-years");
+    if (yExact) yExact.value = "3.5";
     var wInput = document.getElementById("red-weekly-pay");
     if (wInput) wInput.value = "2200";
+    var addInput = document.getElementById("red-notice-additions");
+    if (addInput) addInput.value = "0";
+    var udRemInput = document.getElementById("red-ud-weekly-remuneration");
+    if (udRemInput) udRemInput.value = "";
+    var ageSel = document.getElementById("red-age-45");
+    if (ageSel) ageSel.value = "under45";
+    var ageYrs = document.getElementById("red-age-years");
+    if (ageYrs) ageYrs.value = "";
     var cDays = document.getElementById("cross-days-elapsed");
     if (cDays) cDays.value = "35";
     activateAndRecalculate();
@@ -2077,9 +2416,56 @@
   if (typeof document !== "undefined") {
     document.addEventListener("DOMContentLoaded", function () {
       initDefaultDate();
+      syncRedundancyModeVisibility();
+
+      var redYearsSel = document.getElementById("red-years");
+      var redExactInput = document.getElementById("red-service-years");
+      if (redYearsSel) {
+        redYearsSel.addEventListener("change", function () {
+          if (redExactInput && redYearsSel.value !== "") {
+            redExactInput.value = redYearsSel.value;
+          }
+          activateAndRecalculate();
+        });
+      }
+      if (redExactInput) {
+        var syncExactToPreset = function () {
+          if (redYearsSel) {
+            var v = String(redExactInput.value || "").trim();
+            var matched = false;
+            if (redYearsSel.options) {
+              for (var i = 0; i < redYearsSel.options.length; i++) {
+                if (redYearsSel.options[i].value === v && v !== "") {
+                  matched = true;
+                  break;
+                }
+              }
+            }
+            redYearsSel.value = matched ? v : "";
+          }
+          activateAndRecalculate();
+        };
+        redExactInput.addEventListener("input", syncExactToPreset);
+        redExactInput.addEventListener("change", syncExactToPreset);
+      }
+
+      var ageSelEl = document.getElementById("red-age-45");
+      var ageExactEl = document.getElementById("red-age-years");
+      if (ageSelEl) {
+        ageSelEl.addEventListener("change", function () {
+          if (ageExactEl) ageExactEl.value = "";
+          activateAndRecalculate();
+        });
+      }
+      if (ageExactEl) {
+        ageExactEl.addEventListener("input", activateAndRecalculate);
+        ageExactEl.addEventListener("change", activateAndRecalculate);
+      }
+
       [
         "emp-dismissal-date", "emp-state", "emp-business-size", "emp-service-months", "emp-salary-band", "emp-dismissal-type",
-        "red-business-size", "red-years", "red-weekly-pay", "red-age-45", "red-redeploy",
+        "red-employment-type", "red-business-size", "red-service-mode", "red-start-date", "red-end-date",
+        "red-weekly-pay", "red-notice-additions", "red-ud-weekly-remuneration", "red-redeploy",
         "audit-contractor", "audit-pay", "audit-disconnect",
         "cross-visa-type", "cross-days-elapsed", "cross-issue"
       ].forEach(function (id) {
