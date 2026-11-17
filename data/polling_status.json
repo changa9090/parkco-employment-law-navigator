@@ -4,7 +4,7 @@
   "title_en": "Australia Employment Law (Unfair Dismissal 21-Day Limit, Redundancy, Compliance & Visa Crossover) Navigator",
   "official_contact": "https://parklawyers.com.au/links/?lang=ko",
   "public_email": "enquiry@parkcolawyers.com",
-  "last_polled_iso": "2026-11-15T22:00:47Z",
+  "last_polled_iso": "2026-11-17T22:34:01Z",
   "as_at_date": "October 2026 (FY2026–27 Fair Work Thresholds, FWC Guidance & ABF Sanctions Live)",
   "total_sources": 7,
   "verified_ok_count": 7,
@@ -25,7 +25,7 @@
     "fwc_application_fee": "$92.70 (Form F2/F8/F89)",
     "nes_max_redundancy": "16 Weeks Pay (s 119)",
     "sponsor_grace_8607": "180 Days / 365 Days Max",
-    "abf_sponsor_sanctions": "1,850 Sanctions (124 Active · 1,842+ FY26 Baseline) · 1 Prohibited (s 245AYM)"
+    "abf_sponsor_sanctions": "1,850 Sanctions (123 Active · 1,842+ FY26 Baseline) · 1 Prohibited (s 245AYM)"
   },
   "sources": [
     {
@@ -38,10 +38,10 @@
       "status": "verified_ok",
       "live_ok": true,
       "http_status": 200,
-      "bytes": 878388,
+      "bytes": 878390,
       "method": "https-direct-live",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "e82f0fa7f5ae3f449c23df2ff55901bcd92940875aaa4d5a6a6eb30d9fcb33d8",
       "sha256_prefix": "e82f0fa7f5ae3f44",
       "extracted_figures": [
@@ -60,10 +60,10 @@
       "status": "verified_ok",
       "live_ok": true,
       "http_status": 200,
-      "bytes": 593411,
+      "bytes": 593410,
       "method": "https-direct-live",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "39b17e66b232e993d666ed9275f42c50dfe43475c360305fe1470b6f7c573ee5",
       "sha256_prefix": "39b17e66b232e993",
       "extracted_figures": [
@@ -84,8 +84,8 @@
       "http_status": 200,
       "bytes": 2784156,
       "method": "frl-legis-store-c73-C2026C00355",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "4c31416e07df518c2df647574ced40328db777a9a25a5691dc2afabc78dfa9cc",
       "sha256_prefix": "4c31416e07df518c",
       "extracted_figures": [
@@ -109,8 +109,8 @@
       "http_status": 200,
       "bytes": 381790,
       "method": "frl-legis-store-c58-F2026C01141",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "ca38d1792405e5643f87d8ecda4a49424eee761c1b96efff8365a78687fa3e53",
       "sha256_prefix": "ca38d1792405e564",
       "extracted_figures": [
@@ -134,8 +134,8 @@
       "http_status": 200,
       "bytes": 4868,
       "method": "frl-legis-store-c0-F2024L00776",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "7fc93927c81bb39a7aca533395b80d911856736f1d2d3ec9f25496a9208ab635",
       "sha256_prefix": "7fc93927c81bb39a",
       "extracted_figures": [
@@ -159,8 +159,8 @@
       "http_status": 200,
       "bytes": 566506,
       "method": "https-direct-live",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "5132c74f6323e234e7f46d79e9a79df658f58e5d23e15421864921a0e4d2736d",
       "sha256_prefix": "5132c74f6323e234",
       "extracted_figures": [
@@ -171,8 +171,8 @@
     {
       "id": "abf-sponsor-sanctions-live",
       "category": "ABF Employer Enforcement Register (Live API)",
-      "title_en": "Australian Border Force · Register of Sanctioned Sponsors (1,850 Sanctions · 124 Active Bars) & Prohibited Employers (s 245AYM)",
-      "title_ko": "호주 국경수비대(ABF) · 스폰서 행정제재 등록부(1,850건 · 현행 제재 124건) 및 이주근로자 고용금지 사업주(s 245AYM 1곳)",
+      "title_en": "Australian Border Force · Register of Sanctioned Sponsors (1,850 Sanctions · 123 Active Bars) & Prohibited Employers (s 245AYM)",
+      "title_ko": "호주 국경수비대(ABF) · 스폰서 행정제재 등록부(1,850건 · 현행 제재 123건) 및 이주근로자 고용금지 사업주(s 245AYM 1곳)",
       "citation": "Migration Act 1958 ss 140M, 140K, 245AYM; Migration Regulations 1994 regs 2.79, 2.82, 2.83, 2.84, 2.86",
       "url": "https://www.abf.gov.au/about-us/what-we-do/sponsor-sanctions/register-of-sanctioned-sponsors",
       "status": "verified_ok",
@@ -180,12 +180,12 @@
       "http_status": 200,
       "bytes": 2827426,
       "method": "https-direct-live",
-      "last_checked": "2026-11-15T22:00:47Z",
-      "last_good_at": "2026-11-15T22:00:47Z",
+      "last_checked": "2026-11-17T22:34:01Z",
+      "last_good_at": "2026-11-17T22:34:01Z",
       "sha256": "e0255a228e9be260709846205b0d9ecb291002124247c62e2d1946ea496dc4e4",
       "sha256_prefix": "e0255a228e9be260",
       "extracted_figures": [
-        "Total Sanctions: 1,850 (124 Active Bars)",
+        "Total Sanctions: 1,850 (123 Active Bars)",
         "Prohibited Employers (s 245AYM): 1",
         "Top Breaches: reg 2.84 (724) · reg 2.86 (498) · reg 2.79 Salary (272)"
       ]

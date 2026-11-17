@@ -54,40 +54,37 @@
         "2026-04-05": "Easter Sunday",
         "2026-04-25": "Anzac Day",
         "2026-05-04": "Labour Day (QLD)",
-        "2026-08-12": "Royal Queensland Show (Brisbane)",
         "2026-10-05": "King's Birthday (QLD)",
         "2027-03-27": "Easter Saturday",
         "2027-03-28": "Easter Sunday",
         "2027-04-25": "Anzac Day",
         "2027-04-26": "Anzac Day (Observed QLD)",
         "2027-05-03": "Labour Day (QLD)",
-        "2027-08-11": "Royal Queensland Show (Brisbane)",
         "2027-10-04": "King's Birthday (QLD)",
         "2028-04-15": "Easter Saturday",
         "2028-04-16": "Easter Sunday",
         "2028-05-01": "Labour Day (QLD)",
-        "2028-08-16": "Royal Queensland Show (Brisbane)",
         "2028-10-02": "King's Birthday (QLD)",
         "2029-03-31": "Easter Saturday",
         "2029-04-01": "Easter Sunday",
         "2029-05-07": "Labour Day (QLD)",
-        "2029-08-15": "Royal Queensland Show (Brisbane)",
         "2029-10-01": "King's Birthday (QLD)",
         "2030-04-20": "Easter Saturday",
         "2030-04-21": "Easter Sunday",
         "2030-05-06": "Labour Day (QLD)",
-        "2030-08-14": "Royal Queensland Show (Brisbane)",
         "2030-10-07": "King's Birthday (QLD)"
       },
       NSW: {
         "2026-04-04": "Easter Saturday",
         "2026-04-05": "Easter Sunday",
         "2026-04-25": "Anzac Day",
+        "2026-04-27": "Anzac Day (Additional Day NSW)",
         "2026-06-08": "King's Birthday (NSW)",
         "2026-10-05": "Labour Day (NSW)",
         "2027-03-27": "Easter Saturday",
         "2027-03-28": "Easter Sunday",
         "2027-04-25": "Anzac Day",
+        "2027-04-26": "Anzac Day (Additional Day NSW)",
         "2027-06-14": "King's Birthday (NSW)",
         "2027-10-04": "Labour Day (NSW)",
         "2028-04-15": "Easter Saturday",
@@ -171,7 +168,7 @@
         "2026-10-05": "Labour Day (SA)",
         "2027-03-08": "Adelaide Cup Day (SA)",
         "2027-03-27": "Easter Saturday",
-        "2027-04-26": "Anzac Day (Observed SA)",
+        "2027-04-25": "Anzac Day",
         "2027-06-14": "King's Birthday (SA)",
         "2027-10-04": "Labour Day (SA)",
         "2028-03-13": "Adelaide Cup Day (SA)",
@@ -189,21 +186,16 @@
       },
       TAS: {
         "2026-03-09": "Eight Hours Day (TAS)",
-        "2026-04-07": "Easter Tuesday (TAS Public Service)",
         "2026-04-25": "Anzac Day",
         "2026-06-08": "King's Birthday (TAS)",
         "2027-03-08": "Eight Hours Day (TAS)",
-        "2027-03-30": "Easter Tuesday (TAS Public Service)",
         "2027-04-25": "Anzac Day",
         "2027-06-14": "King's Birthday (TAS)",
         "2028-03-13": "Eight Hours Day (TAS)",
-        "2028-04-18": "Easter Tuesday (TAS Public Service)",
         "2028-06-12": "King's Birthday (TAS)",
         "2029-03-12": "Eight Hours Day (TAS)",
-        "2029-04-03": "Easter Tuesday (TAS Public Service)",
         "2029-06-11": "King's Birthday (TAS)",
         "2030-03-11": "Eight Hours Day (TAS)",
-        "2030-04-23": "Easter Tuesday (TAS Public Service)",
         "2030-06-10": "King's Birthday (TAS)"
       },
       ACT: {
@@ -1299,6 +1291,15 @@
     var rolloverNoteEn = calc.rolledReason
       ? "Raw 21st day (" + calc.rawDate + ") fell on " + calc.rolledReason + "; rolled to next business day under Acts Interpretation Act 1901 s 36(2)"
       : "21 calendar days from day after dismissal (" + dateStr + ") in " + stateCode;
+
+    if (stateCode === "QLD") {
+      var ekkaDates = ["2026-08-12", "2027-08-11", "2028-08-16", "2029-08-15", "2030-08-14"];
+      var crossesEkka = ekkaDates.some(function (ek) { return ek > dateStr && ek <= calc.statutoryDate; });
+      if (crossesEkka) {
+        rolloverNoteKo += " · [QLD 지역별 안내: 브리즈번 시(Brisbane City LGA) 한정 Ekka 수요일은 로건·골드코스트 등 타 시·군 일정과 다르므로 주 전역 자동 연장에서 제외됨]";
+        rolloverNoteEn += " · [QLD LGA Note: Brisbane City LGA Show Day (Ekka Wednesday) is NOT auto-extended statewide for Logan/Gold Coast/regional QLD safety]";
+      }
+    }
 
     var dualCardsHtml =
       '<div class="pk-deadline-pair">' +
